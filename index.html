@@ -1,0 +1,60 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="bower_components/highlightjs/highlight.pack.js"></script>
+<link rel="stylesheet" href="bower_components/highlightjs/styles/default.css">
+
+<style>
+    body{
+
+    }
+
+    .red{
+        color: red;
+    }
+</style>
+
+<html>
+    <body>
+<pre>
+<code class="javascript" id="code">var i = 1;
+i += 2;
+console.log(i);
+
+function() {
+    console.log("omg");
+}
+</code>
+</pre>
+    </body>
+
+    <script>
+        //hljs.initHighlightingOnLoad();
+
+        $(document).ready(function() {
+            var code = $("#code");
+            var text = code.text();
+            code.html("");
+
+            for (var i = 0; i < text.length; i += 1) {
+                var char = text.charAt(i);
+                code.append("<span class='char'>" + char + "<span>");
+            }
+
+            var $cursor = $(".char").first();
+            $cursor.addClass("red");
+
+            $(document).keypress(function(event) {
+                var code = event.keyCode || event.which;
+                var char = String.fromCharCode(code)
+                var cursorChar = $cursor.text();
+                console.log('"' + char + '"', '"' + cursorChar + '"');
+                console.log(cursorChar === '\n');
+                console.log(event.keyCode);
+                if ((code === 13 && cursorChar === '\n') || char === cursorChar) {
+                    $cursor.removeClass("red");
+                    $cursor = $cursor.next();
+                    $cursor.addClass("red");
+                }
+            });
+        });
+    </script>
+</html>
