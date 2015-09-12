@@ -1,0 +1,1 @@
+angular.module("typr").run(["$templateCache", function($templateCache) {$templateCache.put("type/type.html","\n<div>testing</div>\n<p>holy moly dd</p>");}]);
