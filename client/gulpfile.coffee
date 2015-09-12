@@ -13,6 +13,10 @@ connect = require 'gulp-connect'
 gulp.task 'clean', ->
   del.sync [ 'tmp', 'build', 'dist' ]
 
+gulp.task 'fonts', ->
+  gulp.src('node_modules/bootstrap/fonts/*')
+    .pipe gulp.dest('dist/fonts')
+
 gulp.task 'copy', ['jade'], ->
   gulp.src('tmp/templates/index.html')
     .pipe gulp.dest('dist')
@@ -81,6 +85,7 @@ gulp.task 'build', [
   'scripts'
   'sass'
   'copy'
+  'fonts'
 ]
 
 gulp.task 'default', [

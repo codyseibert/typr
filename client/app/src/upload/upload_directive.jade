@@ -1,0 +1,11 @@
+.col-sm-12.centered
+  textarea(
+    ng-model="code"
+  )
+
+.col-sm-12.centered
+  button.col-sm-12.btn.btn-primary(
+    ng-click="hasCode() && upload()"
+    ng-class="{disabled: !hasCode()}"
+    ng-diabled="!hasCode()"
+  ) Upload You Code
