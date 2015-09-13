@@ -12,6 +12,7 @@
     "angular": "^1.4.5",
     "angular-bootstrap-npm": "^0.13.3",
     "angular-sanitize": "^1.4.5",
+    "angular-scroll": "^0.7.2",
     "angular-ui-router": "^0.2.15",
     "backbone": "^1.2.3",
     "bootstrap": "^3.3.5",

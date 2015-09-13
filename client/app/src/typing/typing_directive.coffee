@@ -1,4 +1,4 @@
-module.exports = [ 'codeService', (codeService) ->
+module.exports = [ '$window', 'codeService', ($window, codeService) ->
   restrict: 'E'
 
   link: (scope, elem, attr) ->
@@ -48,6 +48,13 @@ module.exports = [ 'codeService', (codeService) ->
           step()
         else
           onBreak = false
+
+        # We just entered a line break, so scroll
+        yPos = cur.prop('offsetTop')
+        height = elem[0].offsetHeight
+        half = height / 2
+        if yPos > half
+          elem.scrollToElementAnimated cur, half - 100, 500
 
     scope.$watch ->
       codeService.isDone()
