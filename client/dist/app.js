@@ -39385,6 +39385,18 @@ module.exports = [
         return this.index++;
       };
 
+      Code.prototype.getAverageTokenLength = function() {
+        var counts, split, tmpCode;
+        tmpCode = this.code + '';
+        tmpCode = tmpCode.replace(/ +(?= )/g, '');
+        split = this.code.split(/\s|\n/);
+        counts = 0;
+        angular.forEach(split, function(value) {
+          return counts += value.length;
+        });
+        return counts / split.length;
+      };
+
       Code.prototype.isDone = function() {
         return this.index === this.code.length;
       };
@@ -39479,18 +39491,29 @@ module.exports = [
 
 },{}],14:[function(require,module,exports){
 module.exports = [
-  '$window', 'codeService', function($window, codeService) {
+  '$window', '$interval', 'codeService', function($window, $interval, codeService) {
     return {
       restrict: 'E',
       link: function(scope, elem, attr) {
         var SPACE, index, onBreak, setFirstAsRed, step;
         elem[0].querySelector('.type').focus();
+        scope.averageTokenLen = codeService.getAverageTokenLength();
+        scope.charsPerMin = 0;
+        scope.secElapsed = 0;
+        scope.strokes = 0;
+        scope.correct = 0;
         scope.text = '';
-        index = 0;
-        SPACE = 13;
         scope.code = {
           html: ''
         };
+        index = 0;
+        SPACE = 13;
+        onBreak = false;
+        $interval(function() {
+          scope.secElapsed++;
+          scope.charsPerMin = parseInt((scope.correct / scope.secElapsed) * 60);
+          return scope.tokensPerMin = scope.charsPerMin / scope.averageTokenLen;
+        }, 1000);
         setFirstAsRed = function() {
           var code, first;
           angular.element(elem[0].querySelector('.code')).html(codeService.getHtml());
@@ -39499,12 +39522,6 @@ module.exports = [
           first = angular.element(code).children()[0];
           return angular.element(first).addClass('red');
         };
-        scope.$watch(function() {
-          return codeService.getCode();
-        }, function(newValue, oldValue) {
-          return setFirstAsRed();
-        });
-        onBreak = false;
         step = function() {
           var cur, half, height, yPos;
           cur = angular.element(elem[0].querySelector('.red'));
@@ -39540,18 +39557,26 @@ module.exports = [
         }, function() {
           return setFirstAsRed();
         });
+        scope.$watch(function() {
+          return codeService.getCode();
+        }, function(newValue, oldValue) {
+          return setFirstAsRed();
+        });
         scope.blur = function() {
           return elem[0].querySelector('.type').focus();
         };
         return scope.keypress = function($event) {
           var char, code, next;
+          scope.strokes++;
           code = $event.keyCode || $event.which;
           char = String.fromCharCode(code);
           next = codeService.nextChar();
           if ((code === SPACE && next === '\n') || char === next) {
+            scope.correct++;
             step();
-            return codeService.step();
+            codeService.step();
           }
+          return scope.accuracy = (scope.correct / scope.strokes) * 100;
         };
       },
       templateUrl: 'typing/typing_directive.html'
