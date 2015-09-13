@@ -39392,7 +39392,7 @@ module.exports = [
         for (i = j = 0, ref = this.code.length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
           char = this.code.charAt(i);
           if (char === '\n') {
-            html += "<span class='char glyphicon glyphicon-triangle-left'></span><br>";
+            html += "<span class='char break'>&nbsp;</span><br>";
           } else if (char === ' ') {
             html += "<span class='char icon-level-up'>&nbsp;</span>";
           } else {
@@ -39503,8 +39503,12 @@ module.exports = [
           cur = angular.element(elem[0].querySelector('.red'));
           cur.removeClass('red');
           cur.addClass('complete');
+          cur.removeClass('glyphicon glyphicon-arrow-left');
           cur = cur.next();
           cur.addClass('red');
+          if (cur.hasClass('break')) {
+            cur.addClass('glyphicon glyphicon-arrow-left');
+          }
           if (cur[0].tagName === 'BR') {
             onBreak = true;
             step();

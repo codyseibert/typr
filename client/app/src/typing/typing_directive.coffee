@@ -30,8 +30,13 @@ module.exports = [ 'codeService', (codeService) ->
       cur = angular.element elem[0].querySelector('.red')
       cur.removeClass 'red'
       cur.addClass 'complete'
+      cur.removeClass 'glyphicon glyphicon-arrow-left'
+
       cur = cur.next()
       cur.addClass 'red'
+
+      if cur.hasClass 'break'
+        cur.addClass 'glyphicon glyphicon-arrow-left'
 
       if cur[0].tagName is 'BR'
         onBreak = true

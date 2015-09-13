@@ -27,7 +27,7 @@ module.exports = [ ->
       for i in [0..@code.length]
         char = @code.charAt i
         if char is '\n'
-          html += "<span class='char glyphicon glyphicon-triangle-left'></span><br>"
+          html += "<span class='char break'>&nbsp;</span><br>"
         else if char is ' '
           html += "<span class='char icon-level-up'>&nbsp;</span>"
         else
