@@ -2,7 +2,7 @@ module.exports = (
   $stateProvider,
   $urlRouterProvider
 ) ->
-  $urlRouterProvider.otherwise '/'
+  $urlRouterProvider.otherwise '/typing'
 
   $stateProvider
     .state 'typing',

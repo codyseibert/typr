@@ -4,12 +4,14 @@ typr-typing {
     opacity: 0;
     position: fixed; }
   typr-typing .red {
-    color: red;
-    font-weight: bold;
-    font-size: 24px; }
+    background-color: orange; }
+  typr-typing .char {
+    color: gray; }
   typr-typing .code {
     text-align: left;
     font-size: 20px; }
+  typr-typing .complete {
+    color: black; }
 
 typr-upload {
   display: inline-block;
@@ -23,9 +25,6 @@ typr-upload {
   typr-upload button {
     margin-top: 10px;
     height: 50px; }
-
-body {
-  background-color: #EBFFEB; }
 
 .centered {
   text-align: center; }

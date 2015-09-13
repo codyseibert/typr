@@ -6,6 +6,7 @@ module.exports = [ 'codeService', (codeService) ->
     elem[0].querySelector('.type').focus()
 
     scope.text = ''
+    index = 0
 
     SPACE = 13
     scope.code =
@@ -23,23 +24,25 @@ module.exports = [ 'codeService', (codeService) ->
     , (newValue, oldValue) ->
       setFirstAsRed()
 
-    # TODO: Rethink this logic....
-    scope.$watch ->
-      codeService.index
-    , (newValue, oldValue) ->
+
+    onBreak = false
+    step = ->
       cur = angular.element elem[0].querySelector('.red')
       cur.removeClass 'red'
+      cur.addClass 'complete'
       cur = cur.next()
-      if cur[0].tagName is 'BR'
-        cur = cur.next()
-
-        while cur.html() is '&nbsp;'
-          cur = cur.next()
-          scope.keypress
-            keyCode: 32
-            which: 32
-
       cur.addClass 'red'
+
+      if cur[0].tagName is 'BR'
+        onBreak = true
+        step()
+
+      if onBreak
+        if cur.html() is '&nbsp;'
+          codeService.step()
+          step()
+        else
+          onBreak = false
 
     scope.$watch ->
       codeService.isDone()
@@ -55,9 +58,8 @@ module.exports = [ 'codeService', (codeService) ->
       next = codeService.nextChar()
 
       if (code is SPACE and next is '\n') or char is next
+        step()
         codeService.step()
-
-
 
   templateUrl: 'typing/typing_directive.html'
 ]

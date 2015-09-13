@@ -39431,7 +39431,7 @@ require('./code');
 
 },{"./code":8,"./routes":10,"./typing":11,"./upload":14,"angular":6,"angular-bootstrap-npm":1,"angular-sanitize":3,"angular-ui-router":4}],10:[function(require,module,exports){
 module.exports = function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/typing');
   $stateProvider.state('typing', {
     url: '/typing',
     views: {
@@ -39476,9 +39476,10 @@ module.exports = [
     return {
       restrict: 'E',
       link: function(scope, elem, attr) {
-        var SPACE, setFirstAsRed;
+        var SPACE, index, onBreak, setFirstAsRed, step;
         elem[0].querySelector('.type').focus();
         scope.text = '';
+        index = 0;
         SPACE = 13;
         scope.code = {
           html: ''
@@ -39496,25 +39497,27 @@ module.exports = [
         }, function(newValue, oldValue) {
           return setFirstAsRed();
         });
-        scope.$watch(function() {
-          return codeService.index;
-        }, function(newValue, oldValue) {
+        onBreak = false;
+        step = function() {
           var cur;
           cur = angular.element(elem[0].querySelector('.red'));
           cur.removeClass('red');
+          cur.addClass('complete');
           cur = cur.next();
+          cur.addClass('red');
           if (cur[0].tagName === 'BR') {
-            cur = cur.next();
-            while (cur.html() === '&nbsp;') {
-              cur = cur.next();
-              scope.keypress({
-                keyCode: 32,
-                which: 32
-              });
+            onBreak = true;
+            step();
+          }
+          if (onBreak) {
+            if (cur.html() === '&nbsp;') {
+              codeService.step();
+              return step();
+            } else {
+              return onBreak = false;
             }
           }
-          return cur.addClass('red');
-        });
+        };
         scope.$watch(function() {
           return codeService.isDone();
         }, function() {
@@ -39529,6 +39532,7 @@ module.exports = [
           char = String.fromCharCode(code);
           next = codeService.nextChar();
           if ((code === SPACE && next === '\n') || char === next) {
+            step();
             return codeService.step();
           }
         };
