@@ -1,22 +1,26 @@
-typr-typing
-  margin-top: 100px
-  display: inline-block
-  max-height: 400px
-  overflow-y: hidden
+.report-list
+  text-align: right
+  background-color: $COLOR_T
 
-  input
-    opacity: 0
-    position: fixed
+  h3
+    padding-right: 10px
 
-  .red
-    background-color: orange
-
-  .char
-    color: gray
-
-  .code
-    text-align: left
+  .report
     font-size: 20px
+    padding-top: 10px
+    padding-bottom: 10px
+    padding-right: 10px
+    cursor: pointer
 
-  .complete
-    color: black
+  .report:hover
+    background-color: $COLOR_Q
+
+  .report.selected
+    background-color: $COLOR_S
+
+
+.report-current
+  background-color: $COLOR_P
+
+.report-selected
+  background-color: $COLOR_S

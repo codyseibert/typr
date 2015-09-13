@@ -1,3 +1,38 @@
+body {
+  margin: 0;
+  padding: 0; }
+
+.centered {
+  text-align: center; }
+
+.full {
+  height: 100%; }
+
+.no-pad {
+  padding: 0; }
+
+.report-list {
+  text-align: right;
+  background-color: #FFF5C3; }
+  .report-list h3 {
+    padding-right: 10px; }
+  .report-list .report {
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    cursor: pointer; }
+  .report-list .report:hover {
+    background-color: #EB6E44; }
+  .report-list .report.selected {
+    background-color: #D3E397; }
+
+.report-current {
+  background-color: #8DCDC1; }
+
+.report-selected {
+  background-color: #D3E397; }
+
 typr-typing {
   margin-top: 100px;
   display: inline-block;
@@ -5,7 +40,8 @@ typr-typing {
   overflow-y: hidden; }
   typr-typing input {
     opacity: 0;
-    position: fixed; }
+    position: fixed;
+    z-index: -1; }
   typr-typing .red {
     background-color: orange; }
   typr-typing .char {
@@ -28,6 +64,3 @@ typr-upload {
   typr-upload button {
     margin-top: 10px;
     height: 50px; }
-
-.centered {
-  text-align: center; }

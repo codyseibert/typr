@@ -1,22 +1,36 @@
 module.exports = [
   '$window',
   '$interval',
+  '$timeout',
   'codeService',
   (
     $window,
     $interval,
+    $timeout,
     codeService
   ) ->
     restrict: 'E'
 
+    templateUrl: 'typing/typing_directive.html'
+
+    scope:
+      reports: '='
+      report: '='
+
     link: (scope, elem, attr) ->
       elem[0].querySelector('.type').focus()
 
-      scope.averageTokenLen = codeService.getAverageTokenLength()
-      scope.charsPerMin = 0
-      scope.secElapsed = 0
-      scope.strokes = 0
-      scope.correct = 0
+      id = 1
+      scope.paused = true
+
+      # TODO: Refactor (see below)
+      scope.report.id = id++
+      scope.report.averageTokenLen = codeService.getAverageTokenLength()
+      scope.report.charsPerMin = 0
+      scope.report.secElapsed = 0
+      scope.report.strokes = 0
+      scope.report.correct = 0
+
       scope.text = ''
       scope.code =
         html: ''
@@ -24,12 +38,15 @@ module.exports = [
       index = 0
       SPACE = 13
       onBreak = false
+      interval = null
 
-      $interval ->
-        scope.secElapsed++
-        scope.charsPerMin = parseInt ((scope.correct / scope.secElapsed) * 60)
-        scope.tokensPerMin = scope.charsPerMin / scope.averageTokenLen
-      , 1000
+      createInterval = ->
+        $interval.cancel interval if interval?
+        interval = $interval ->
+          scope.report.secElapsed++
+          scope.report.charsPerMin = parseInt ((scope.report.correct / scope.report.secElapsed) * 60)
+          scope.report.tokensPerMin = scope.report.charsPerMin / scope.report.averageTokenLen
+        , 1000
 
       setFirstAsRed = ->
         angular.element(elem[0].querySelector('.code')).html codeService.getHtml()
@@ -68,32 +85,52 @@ module.exports = [
           if yPos > half
             elem.scrollToElementAnimated cur, half - 100, 500
 
-      scope.$watch ->
-        codeService.isDone()
-      , ->
-        setFirstAsRed()
+      checkIfDone = ->
+        if codeService.isDone()
+          # TODO: Refactor
+          scope.report = {}
+          scope.report.id = id++
+          scope.report.averageTokenLen = codeService.getAverageTokenLength()
+          scope.report.charsPerMin = 0
+          scope.report.secElapsed = 0
+          scope.report.strokes = 0
+          scope.report.correct = 0
 
+          scope.paused = true
+
+          $interval.cancel interval
+
+      # TODO: Look into why I am using watch
       scope.$watch ->
         codeService.getCode()
       , (newValue, oldValue) ->
         setFirstAsRed()
 
       scope.blur = ->
+        if !scope.paused
+          elem[0].querySelector('.type').focus()
+
+      scope.start = ->
+        # TODO: Refactor
         elem[0].querySelector('.type').focus()
+        scope.paused = false
+        scope.reports.unshift scope.report
+        setFirstAsRed()
+        createInterval()
+        return true
 
       scope.keypress = ($event) ->
-        scope.strokes++
+        scope.report.strokes++
 
         code = $event.keyCode or $event.which
         char = String.fromCharCode code
         next = codeService.nextChar()
 
         if (code is SPACE and next is '\n') or char is next
-          scope.correct++
+          scope.report.correct++
           step()
           codeService.step()
+          checkIfDone()
 
-        scope.accuracy = (scope.correct / scope.strokes) * 100
-
-    templateUrl: 'typing/typing_directive.html'
+        scope.accuracy = (scope.report.correct / scope.report.strokes) * 100
   ]

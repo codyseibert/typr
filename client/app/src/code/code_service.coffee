@@ -29,7 +29,7 @@ module.exports = [ ->
       counts / split.length
 
     isDone: ->
-      @index is @code.length
+      @index >= @code.length
 
     getHtml: ->
       html = ''

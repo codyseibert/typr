@@ -8,6 +8,8 @@ module.exports = [
     restrict: 'E'
 
     link: (scope, elem, attr) ->
+      elem[0].querySelector('.type').focus()
+
       scope.upload = ->
         codeService.setCode scope.code
         $state.go 'typing'

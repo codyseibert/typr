@@ -39398,7 +39398,7 @@ module.exports = [
       };
 
       Code.prototype.isDone = function() {
-        return this.index === this.code.length;
+        return this.index >= this.code.length;
       };
 
       Code.prototype.getHtml = function() {
@@ -39482,26 +39482,43 @@ app.directive('typrTyping', require('./typing_directive'));
 
 },{"./typing_controller":13,"./typing_directive":14,"angular":7}],13:[function(require,module,exports){
 module.exports = [
-  '$state', 'codeService', function($state, codeService) {
+  '$scope', '$state', 'codeService', function($scope, $state, codeService) {
     if (codeService.code === '') {
-      return $state.go('upload');
+      $state.go('upload');
     }
+    $scope.reports = [];
+    $scope.report = {};
+    return $scope.click = function(report) {
+      angular.forEach($scope.reports, function(value) {
+        return value.selected = false;
+      });
+      report.selected = true;
+      return $scope.visible = report;
+    };
   }
 ];
 
 },{}],14:[function(require,module,exports){
 module.exports = [
-  '$window', '$interval', 'codeService', function($window, $interval, codeService) {
+  '$window', '$interval', '$timeout', 'codeService', function($window, $interval, $timeout, codeService) {
     return {
       restrict: 'E',
+      templateUrl: 'typing/typing_directive.html',
+      scope: {
+        reports: '=',
+        report: '='
+      },
       link: function(scope, elem, attr) {
-        var SPACE, index, onBreak, setFirstAsRed, step;
+        var SPACE, checkIfDone, createInterval, id, index, interval, onBreak, setFirstAsRed, step;
         elem[0].querySelector('.type').focus();
-        scope.averageTokenLen = codeService.getAverageTokenLength();
-        scope.charsPerMin = 0;
-        scope.secElapsed = 0;
-        scope.strokes = 0;
-        scope.correct = 0;
+        id = 1;
+        scope.paused = true;
+        scope.report.id = id++;
+        scope.report.averageTokenLen = codeService.getAverageTokenLength();
+        scope.report.charsPerMin = 0;
+        scope.report.secElapsed = 0;
+        scope.report.strokes = 0;
+        scope.report.correct = 0;
         scope.text = '';
         scope.code = {
           html: ''
@@ -39509,11 +39526,17 @@ module.exports = [
         index = 0;
         SPACE = 13;
         onBreak = false;
-        $interval(function() {
-          scope.secElapsed++;
-          scope.charsPerMin = parseInt((scope.correct / scope.secElapsed) * 60);
-          return scope.tokensPerMin = scope.charsPerMin / scope.averageTokenLen;
-        }, 1000);
+        interval = null;
+        createInterval = function() {
+          if (interval != null) {
+            $interval.cancel(interval);
+          }
+          return interval = $interval(function() {
+            scope.report.secElapsed++;
+            scope.report.charsPerMin = parseInt((scope.report.correct / scope.report.secElapsed) * 60);
+            return scope.report.tokensPerMin = scope.report.charsPerMin / scope.report.averageTokenLen;
+          }, 1000);
+        };
         setFirstAsRed = function() {
           var code, first;
           angular.element(elem[0].querySelector('.code')).html(codeService.getHtml());
@@ -39552,34 +39575,52 @@ module.exports = [
             }
           }
         };
-        scope.$watch(function() {
-          return codeService.isDone();
-        }, function() {
-          return setFirstAsRed();
-        });
+        checkIfDone = function() {
+          if (codeService.isDone()) {
+            scope.report = {};
+            scope.report.id = id++;
+            scope.report.averageTokenLen = codeService.getAverageTokenLength();
+            scope.report.charsPerMin = 0;
+            scope.report.secElapsed = 0;
+            scope.report.strokes = 0;
+            scope.report.correct = 0;
+            scope.paused = true;
+            return $interval.cancel(interval);
+          }
+        };
         scope.$watch(function() {
           return codeService.getCode();
         }, function(newValue, oldValue) {
           return setFirstAsRed();
         });
         scope.blur = function() {
-          return elem[0].querySelector('.type').focus();
+          if (!scope.paused) {
+            return elem[0].querySelector('.type').focus();
+          }
+        };
+        scope.start = function() {
+          elem[0].querySelector('.type').focus();
+          scope.paused = false;
+          scope.reports.unshift(scope.report);
+          setFirstAsRed();
+          createInterval();
+          return true;
         };
         return scope.keypress = function($event) {
           var char, code, next;
-          scope.strokes++;
+          scope.report.strokes++;
           code = $event.keyCode || $event.which;
           char = String.fromCharCode(code);
           next = codeService.nextChar();
           if ((code === SPACE && next === '\n') || char === next) {
-            scope.correct++;
+            scope.report.correct++;
             step();
             codeService.step();
+            checkIfDone();
           }
-          return scope.accuracy = (scope.correct / scope.strokes) * 100;
+          return scope.accuracy = (scope.report.correct / scope.report.strokes) * 100;
         };
-      },
-      templateUrl: 'typing/typing_directive.html'
+      }
     };
   }
 ];
@@ -39602,6 +39643,7 @@ module.exports = [
     return {
       restrict: 'E',
       link: function(scope, elem, attr) {
+        elem[0].querySelector('.type').focus();
         scope.upload = function() {
           codeService.setCode(scope.code);
           return $state.go('typing');

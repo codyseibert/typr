@@ -1,11 +1,31 @@
 .row
-  .col-md-6
-    h1 Type Your Code!
-    h2 Chars Per Minute (CPM): {{charsPerMin}}
-    h2 Tokens Per Minute (CPM): {{tokensPerMin}}
-    h2 Accuracy: {{accuracy | number:2}}% (Correct {{correct}} / Total: {{strokes}}))
-    h2 Seconds Elapsed: {{secElapsed}}
-    h2 Average Token Length: {{averageTokenLen}}
+  .col-md-1.report-list.full.no-pad
+    h3 Reports
     
-  .col-md-6
-    typr-typing.typing
+    .report(
+      ng-repeat="report in reports"
+      ng-click="click(report)"
+      ng-class="{selected: report.selected}"
+    ) Report &#35;{{report.id}}
+    
+  .col-md-3.full.report-selected
+    h2 Previous Report &#35;{{visible.id}}
+    h5 Chars Per Minute (CPM): {{visible.charsPerMin}}
+    h5 Tokens Per Minute (CPM): {{visible.tokensPerMin | number: 0}}
+    h5 Accuracy: {{visible.accuracy | number:2}}% (Correct {{visible.correct}} / Total: {{visible.strokes}}))
+    h5 Seconds Elapsed: {{visible.secElapsed}}
+    h5 Average Token Length: {{visible.averageTokenLen | number:1}}
+    
+  .full.col-md-3.report-current
+    h2 Current Report
+    h5 Chars Per Minute (CPM): {{report.charsPerMin}}
+    h5 Tokens Per Minute (CPM): {{report.tokensPerMin | number: 0}}
+    h5 Accuracy: {{report.accuracy | number:2}}% (Correct {{report.correct}} / Total: {{report.strokes}}))
+    h5 Seconds Elapsed: {{report.secElapsed}}
+    h5 Average Token Length: {{report.averageTokenLen | number:1}}
+    
+  .col-md-5.full
+    typr-typing(
+      reports="reports"
+      report="report"
+    ).typing
