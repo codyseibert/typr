@@ -64,3 +64,48 @@ typr-upload {
   typr-upload button {
     margin-top: 10px;
     height: 50px; }
+  typr-upload input {
+    padding: 10px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px; }
+
+.snippit-list {
+  text-align: right;
+  background-color: #EB6E44; }
+  .snippit-list .snippit {
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    cursor: pointer; }
+  .snippit-list .snippit:hover {
+    background-color: #7C786A; }
+  .snippit-list .snippit.selected {
+    background-color: #FFF5C3; }
+
+.report-list {
+  text-align: right;
+  background-color: #FFF5C3; }
+  .report-list h3 {
+    padding-right: 10px; }
+  .report-list .report {
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    cursor: pointer; }
+  .report-list .report:hover {
+    background-color: #EB6E44; }
+  .report-list .report.selected {
+    background-color: #D3E397; }
+
+.preview {
+  height: 400px;
+  overflow-y: auto; }
+
+.report-current {
+  background-color: #8DCDC1; }
+
+.report-selected {
+  background-color: #D3E397; }

@@ -11,6 +11,8 @@
   "dependencies": {
     "angular": "^1.4.5",
     "angular-bootstrap-npm": "^0.13.3",
+    "angular-chart.js": "^0.8.3",
+    "angular-moment": "^0.10.3",
     "angular-sanitize": "^1.4.5",
     "angular-scroll": "^0.7.2",
     "angular-ui-router": "^0.2.15",

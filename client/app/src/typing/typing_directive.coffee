@@ -3,33 +3,36 @@ module.exports = [
   '$interval',
   '$timeout',
   'codeService',
+  'reportsService'
+  'snippitsService'
   (
     $window,
     $interval,
     $timeout,
-    codeService
+    codeService,
+    reportsService,
+    snippitsService
   ) ->
     restrict: 'E'
 
     templateUrl: 'typing/typing_directive.html'
 
     scope:
-      reports: '='
-      report: '='
+      snippit: '='
+      isTyping: '='
+      done: '='
 
     link: (scope, elem, attr) ->
       elem[0].querySelector('.type').focus()
 
       id = 1
-      scope.paused = true
 
       # TODO: Refactor (see below)
-      scope.report.id = id++
-      scope.report.averageTokenLen = codeService.getAverageTokenLength()
-      scope.report.charsPerMin = 0
-      scope.report.secElapsed = 0
-      scope.report.strokes = 0
-      scope.report.correct = 0
+      scope.averageTokenLen = 1
+      scope.charsPerMin = 0
+      scope.secElapsed = 0
+      scope.strokes = 0
+      scope.correct = 0
 
       scope.text = ''
       scope.code =
@@ -43,9 +46,9 @@ module.exports = [
       createInterval = ->
         $interval.cancel interval if interval?
         interval = $interval ->
-          scope.report.secElapsed++
-          scope.report.charsPerMin = parseInt ((scope.report.correct / scope.report.secElapsed) * 60)
-          scope.report.tokensPerMin = scope.report.charsPerMin / scope.report.averageTokenLen
+          scope.secElapsed++
+          scope.charsPerMin = parseInt ((scope.correct / scope.secElapsed) * 60)
+          scope.tokensPerMin = scope.charsPerMin / codeService.getAverageTokenLength()
         , 1000
 
       setFirstAsRed = ->
@@ -87,18 +90,17 @@ module.exports = [
 
       checkIfDone = ->
         if codeService.isDone()
-          # TODO: Refactor
-          scope.report = {}
-          scope.report.id = id++
-          scope.report.averageTokenLen = codeService.getAverageTokenLength()
-          scope.report.charsPerMin = 0
-          scope.report.secElapsed = 0
-          scope.report.strokes = 0
-          scope.report.correct = 0
-
-          scope.paused = true
-
+          report = reportsService.create()
+          report.averageTokenLen = codeService.getAverageTokenLength()
+          report.charsPerMin = scope.charsPerMin
+          report.tokensPerMin = scope.tokensPerMin or 0
+          report.secElapsed = scope.secElapsed
+          report.strokes = scope.strokes
+          report.correct = scope.correct
+          report.accuracy = scope.accuracy
+          snippitsService.persist()
           $interval.cancel interval
+          scope.isTyping = false
 
       # TODO: Look into why I am using watch
       scope.$watch ->
@@ -110,27 +112,26 @@ module.exports = [
         if !scope.paused
           elem[0].querySelector('.type').focus()
 
-      scope.start = ->
-        # TODO: Refactor
-        elem[0].querySelector('.type').focus()
-        scope.paused = false
-        scope.reports.unshift scope.report
+      scope.$parent['typrStart'] = ->
+        setTimeout ->
+          elem[0].querySelector('.type').focus()
+        , 100
         setFirstAsRed()
         createInterval()
         return true
 
       scope.keypress = ($event) ->
-        scope.report.strokes++
+        scope.strokes++
 
         code = $event.keyCode or $event.which
         char = String.fromCharCode code
         next = codeService.nextChar()
 
         if (code is SPACE and next is '\n') or char is next
-          scope.report.correct++
+          scope.correct++
           step()
           codeService.step()
           checkIfDone()
 
-        scope.accuracy = (scope.report.correct / scope.report.strokes) * 100
+        scope.accuracy = (scope.correct / scope.strokes) * 100
   ]

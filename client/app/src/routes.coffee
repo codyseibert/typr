@@ -2,7 +2,7 @@ module.exports = (
   $stateProvider,
   $urlRouterProvider
 ) ->
-  $urlRouterProvider.otherwise '/typing'
+  $urlRouterProvider.otherwise '/reports'
 
   $stateProvider
     .state 'typing',
@@ -12,11 +12,11 @@ module.exports = (
           controller: 'TypingCtrl'
           templateUrl: 'typing/typing.html'
 
-    .state 'upload',
-      url: '/upload'
+    .state 'reports',
+      url: '/reports'
       views:
         'main':
-          controller: 'UploadCtrl'
-          templateUrl: 'upload/upload.html'
+          controller: 'ReportsCtrl'
+          templateUrl: 'reports/reports.html'
 
   return this

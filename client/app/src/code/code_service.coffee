@@ -22,7 +22,7 @@ module.exports = [ ->
     getAverageTokenLength: ->
       tmpCode = @code + ''
       tmpCode = tmpCode.replace(/ +(?= )/g,'')
-      split = @code.split(/\s|\n/)
+      split = @code.split(/\s|\n|\-|\_/)
       counts = 0
       angular.forEach split, (value) ->
         counts += value.length

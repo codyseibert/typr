@@ -1,11 +1,18 @@
 .col-sm-12.centered
+  input.name(
+    name="name"
+    ng-model="name"
+    placeholder="Name of your Snippit"
+  )
+  
+.col-sm-12.centered
   textarea.type(
     ng-model="code"
   )
 
 .col-sm-12.centered
   button.col-sm-12.btn.btn-primary(
-    ng-click="hasCode() && upload()"
-    ng-class="{disabled: !hasCode()}"
-    ng-diabled="!hasCode()"
-  ) Upload You Code
+    ng-click="canUpload() && upload() && uploadClicked()"
+    ng-class="{disabled: !canUpload()}"
+    ng-diabled="!canUpload()"
+  ) Upload

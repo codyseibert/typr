@@ -16,7 +16,7 @@ module.exports = [
     $scope.click = (report) ->
       angular.forEach $scope.reports, (value) ->
         value.selected = false
-        
+
       report.selected = true
       $scope.visible = report
 ]
