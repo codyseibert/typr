@@ -27,6 +27,21 @@ module.exports = [
       codeService.setCode snippit.code
       $scope.snippit = snippit
 
+      $scope.labels = []
+      $scope.series = ['Accuracy', 'CPM']
+      accuracy = []
+      cpm = []
+
+      angular.forEach $scope.snippit.reports, (value) ->
+        $scope.labels.push 'test' #value.date
+        accuracy.push value.accuracy
+        cpm.push value.charsPerMin
+      $scope.data = [
+        accuracy
+        cpm
+      ]
+      console.log $scope.data, $scope.labels, $scope.series
+
     $scope.reportClicked = (report) ->
       angular.forEach $scope.reports, (value) ->
         value.selected = false
@@ -42,5 +57,6 @@ module.exports = [
 
     $scope.start = ->
       $scope.isTyping = true
+
 
 ]

@@ -14,6 +14,7 @@ module.exports = [
         @averageTokenLen = 0
         @charsPerMin = 0
         @secElapsed = 0
+        @accuracy = 0
         @strokes = 0
         @correct = 0
         @date = new Date()
