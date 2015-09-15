@@ -84,6 +84,11 @@ typr-upload {
   .snippit-list .snippit.selected {
     background-color: #FFF5C3; }
 
+.new-snippit {
+  background-color: pink;
+  position: relative;
+  left: 0px; }
+
 .report-list {
   text-align: right;
   background-color: #FFF5C3; }
@@ -109,3 +114,7 @@ typr-upload {
 
 .report-selected {
   background-color: #D3E397; }
+
+.typr-upload {
+  padding: 50px;
+  padding-top: 20px; }

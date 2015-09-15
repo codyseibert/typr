@@ -5,31 +5,26 @@
   //- 
   //- SNIPPIT LIST
   //- 
-  .col-md-2.snippit-list.full.no-pad
+  .col-md-1.snippit-list.full.no-pad
     h3 Snippits
     
     .snippit(
-      ng-click="showUpload()"
+      ng-click="openModal()"
     )
       span.glyphicon.glyphicon-plus 
       span New Snippit
     
     .snippit(
-      ng-repeat="snippit in snippits"
+      ng-repeat="snippit in snippits track by snippit.id"
       ng-click="snippitClicked(snippit)"
       ng-class="{selected: snippit.selected}"
     ) {{snippit.name}}
-
-  .col-md-3(
-    ng-show="isShowUpload"
-  )
-    typr-upload(
-      upload-clicked="upload"
-    )
   
   .col-md-3(
-    
+    ng-show="snippit.reports.length > 0"
   ) 
+    h3 {{snippit.name}} Analytics
+    
     canvas.chart.chart-line(
       chart-labels="labels" 
       chart-legend="true" 
@@ -40,7 +35,7 @@
   //- 
   //- REPORT LIST
   //- 
-  .col-md-2.report-list.full.no-pad(
+  .col-md-1.report-list.full.no-pad(
     ng-show="snippit.reports.length > 0"
   )
     h3 Reports
@@ -56,7 +51,7 @@
   //- REPORT
   //- 
   .col-md-3.full.report-selected(
-    ng-show="report && snippit"
+    ng-show="snippit && report"
   )
     h2 {{visible.date | amCalendar}}
     h5 Chars Per Minute (CPM): {{visible.charsPerMin}}
@@ -68,10 +63,10 @@
   //- 
   //- CODE PREVIEW
   //- 
-  .col-md-4.full.no-pad(
+  .col-md-4.full(
     ng-show="snippit"
   )
-    h3 Code Snippit
+    h3 Snippit Preview
     pre.preview {{snippit.code}}
     button(
       ng-click="start(); typrStart()"

@@ -101,6 +101,7 @@ module.exports = [
           snippitsService.persist()
           $interval.cancel interval
           scope.isTyping = false
+          scope.$parent.doneWithPractice()
 
       # TODO: Look into why I am using watch
       scope.$watch ->
