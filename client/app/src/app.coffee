@@ -11,6 +11,14 @@ app = require('angular').module('typr', [
   require 'angular-moment'
 ])
 app.config require './routes'
+app.config [
+  'ChartJsProvider'
+  (
+    ChartJsProvider
+  ) ->
+    ChartJsProvider.setOptions
+      animation: false
+]
 require './typing'
 require './upload'
 require './code'

@@ -1,11 +1,7 @@
+
 .row
-  //- 
-  //- SNIPPIT LIST
-  //- 
-  .col-md-1.snippit-list.full.no-pad
-    h3 Snippits
-    
-    .snippit(
+  .col-md-2.snippit-list.no-pad.mt2
+    .snippit.new(
       ng-click="openModal()"
     )
       span.glyphicon.glyphicon-plus 
@@ -15,76 +11,70 @@
       ng-repeat="snippit in snippits track by snippit.id"
       ng-click="snippitClicked(snippit)"
       ng-class="{selected: snippit.selected}"
-    ) {{snippit.name}}
+    ) 
+      span {{snippit.name}} 
+      //- i.glyphicon.glyphicon-menu-left
+    
   
-  .col-md-3(
-    ng-show="snippit.reports.length > 0"
-  ) 
-    h3 {{snippit.name}} Analytics
+  .col-md-10.content
+    .row
+      .col-md-12 
+        h1 {{snippit.name}}
+        
+    .row
+      .col-md-4
+        .col-md-12
+          h2 Accuracy
+          canvas.chart.chart-line(
+            chart-labels="charts.accuracy.labels" 
+            chart-legend="false" 
+            chart-series="charts.accuracy.series"
+            chart-data="charts.accuracy.data"
+            ng-show="charts.accuracy.data[0].length > 0"
+          )
+        .col-md-12
+          h2 CPM
+          canvas.chart.chart-line(
+            chart-labels="charts.cpm.labels" 
+            chart-legend="false" 
+            chart-series="charts.cpm.series"
+            chart-data="charts.cpm.data"
+            ng-show="charts.cpm.data[0].length > 0"
+          )
+        .col-md-12
+          h2 Time
+          canvas.chart.chart-line(
+            chart-labels="charts.time.labels" 
+            chart-legend="false" 
+            chart-series="charts.time.series"
+            chart-data="charts.time.data"
+            ng-show="charts.time.data[0].length > 0"
+          )
+      
+      .col-md-3
+        h2 Reports
+        
+        .report(
+          ng-repeat="report in reports | orderBy:'time':true track by report.id"
+          ng-click="reportClicked(report)"
+          ng-class="{selected: report.selected}"
+        ) 
+          h3 {{report.date | amCalendar}}
+          h5 Chars Per Minute (CPM): {{report.charsPerMin}}
+          h5 Tokens Per Minute (CPM): {{report.tokensPerMin | number: 0}}
+          h5 Accuracy: {{report.accuracy | number:2}}% (Correct {{report.correct}} / Total: {{report.strokes}}))
+          h5 Seconds Elapsed: {{report.secElapsed}}
+          h5 Average Token Length: {{report.averageTokenLen | number:1}}
+          
+      .col-md-4
+        h2 Snippit Preview
+        pre.preview {{snippit.code}}
+        
+        button.start-practice(
+          ng-click="openTypingModal()"
+        ) 
+          i.glyphicon.glyphicon-flag
+          | Start Pratice! 
+      
     
-    h3 Accuracy
-    canvas.chart.chart-line(
-      chart-labels="charts.accuracy.labels" 
-      chart-legend="false" 
-      chart-series="charts.accuracy.series"
-      chart-data="charts.accuracy.data"
-      chart-hover=""
-    )
     
-    h3 CPM
-    canvas.chart.chart-line(
-      chart-labels="charts.cpm.labels" 
-      chart-legend="false" 
-      chart-series="charts.cpm.series"
-      chart-data="charts.cpm.data"
-      chart-hover=""
-    )
-    
-    h3 Time
-    canvas.chart.chart-line(
-      chart-labels="charts.time.labels" 
-      chart-legend="false" 
-      chart-series="charts.time.series"
-      chart-data="charts.time.data"
-      chart-hover=""
-    )
-    
-  //- 
-  //- REPORT LIST
-  //- 
-  .col-md-1.report-list.full.no-pad(
-    ng-show="snippit.reports.length > 0"
-  )
-    h3 Reports
-    
-    .report(
-      ng-repeat="report in reports | orderBy:'time':true track by report.id"
-      ng-click="reportClicked(report)"
-      ng-class="{selected: report.selected}"
-    ) {{report.date | amCalendar}}
-    
-    
-  //- 
-  //- REPORT
-  //- 
-  .col-md-3.full.report-selected(
-    ng-show="snippit && report"
-  )
-    h2 {{visible.date | amCalendar}}
-    h5 Chars Per Minute (CPM): {{visible.charsPerMin}}
-    h5 Tokens Per Minute (CPM): {{visible.tokensPerMin | number: 0}}
-    h5 Accuracy: {{visible.accuracy | number:2}}% (Correct {{visible.correct}} / Total: {{visible.strokes}}))
-    h5 Seconds Elapsed: {{visible.secElapsed}}
-    h5 Average Token Length: {{visible.averageTokenLen | number:1}}
-    
-  //- 
-  //- CODE PREVIEW
-  //- 
-  .col-md-4.full(
-    ng-show="snippit"
-  )
-    h3 Snippit Preview
-    pre.preview {{snippit.code}}
-    button(
-      ng-click="openTypingModal()"
-    ) Start Pratice!

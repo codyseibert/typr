@@ -1,6 +1,6 @@
 .snippit-list
   text-align: right
-  background-color: $COLOR_Q
+  // background-color: $COLOR_Q
 
   .snippit
     font-size: 20px
@@ -9,17 +9,46 @@
     padding-right: 10px
     cursor: pointer
 
+    i
+      position: relative
+      color: #5DBAEF
+      top: 4px
+      left: 28px
+
   .snippit:hover
-    background-color: $COLOR_G
+    background-color: #EAF1F5
+    background-color: #C8DAE4
+
+  .snippit.selected:hover
+    background-color: #C8DAE4
 
   .snippit.selected
-    background-color: $COLOR_T
+    background-color: #EAF1F5
+
+  .snippit.new
+    .glyphicon
+      color: $GREEN
+      padding-right: 5px
+      position: relative
+      top: 2px
+
+  .snippit.new:hover
+      background-color: white
+      color: $GREEN
+
+      .glyphicon
+        color: $GREEN
 
 .new-snippit
   background-color: pink
   position: relative
   left: 0px
 
+
+.report
+  font-size: 16px
+  padding-bottom: 10px
+  padding-right: 10px
 
 .report-list
   text-align: right
@@ -42,7 +71,7 @@
     background-color: $COLOR_S
 
 .preview
-  height: 400px
+  height: 300px
   overflow-y: auto
 
 .report-current
@@ -54,3 +83,22 @@
 .typr-upload
   padding: 50px
   padding-top: 20px
+
+.content
+  padding-left: 30px
+  margin-top: 4px
+
+.start-practice
+  border: 0
+  font-size: 30px
+  background-color: #B9D25B
+  border-radius: 10px
+  padding: 10px
+
+  .glyphicon
+    margin-right: 10px
+    position: relative
+    top: 5px
+
+.start-practice:hover
+  background-color: #98BBCD

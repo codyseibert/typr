@@ -48727,6 +48727,14 @@ app = require('angular').module('typr', [require('angular-ui-router'), require('
 
 app.config(require('./routes'));
 
+app.config([
+  'ChartJsProvider', function(ChartJsProvider) {
+    return ChartJsProvider.setOptions({
+      animation: false
+    });
+  }
+]);
+
 require('./typing');
 
 require('./upload');

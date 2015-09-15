@@ -1,6 +1,7 @@
 body {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  font-family: 'Abel', sans-serif; }
 
 .centered {
   text-align: center; }
@@ -10,6 +11,35 @@ body {
 
 .no-pad {
   padding: 0; }
+
+.main {
+  z-index: 1; }
+
+.top-nav {
+  font-size: 30px;
+  padding-left: 50px;
+  padding-top: 16px;
+  background-color: #EAF1F5;
+  height: 80px;
+  box-shadow: 1px 1px 1px #CACACA;
+  width: 100%;
+  z-index: 5;
+  position: relative; }
+
+.mt3 {
+  margin-top: 30px; }
+
+.mt2 {
+  margin-top: 20px; }
+
+.mt1 {
+  margin-top: 10px; }
+
+h1 {
+  padding-left: 14px; }
+
+h2 {
+  margin-bottom: 10px; }
 
 .report-list {
   text-align: right;
@@ -78,23 +108,45 @@ typr-upload {
     margin-top: 20px; }
 
 .snippit-list {
-  text-align: right;
-  background-color: #EB6E44; }
+  text-align: right; }
   .snippit-list .snippit {
     font-size: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 10px;
     cursor: pointer; }
+    .snippit-list .snippit i {
+      position: relative;
+      color: #5DBAEF;
+      top: 4px;
+      left: 28px; }
   .snippit-list .snippit:hover {
-    background-color: #7C786A; }
+    background-color: #EAF1F5;
+    background-color: #C8DAE4; }
+  .snippit-list .snippit.selected:hover {
+    background-color: #C8DAE4; }
   .snippit-list .snippit.selected {
-    background-color: #FFF5C3; }
+    background-color: #EAF1F5; }
+  .snippit-list .snippit.new .glyphicon {
+    color: #B9D25B;
+    padding-right: 5px;
+    position: relative;
+    top: 2px; }
+  .snippit-list .snippit.new:hover {
+    background-color: white;
+    color: #B9D25B; }
+    .snippit-list .snippit.new:hover .glyphicon {
+      color: #B9D25B; }
 
 .new-snippit {
   background-color: pink;
   position: relative;
   left: 0px; }
+
+.report {
+  font-size: 16px;
+  padding-bottom: 10px;
+  padding-right: 10px; }
 
 .report-list {
   text-align: right;
@@ -113,7 +165,7 @@ typr-upload {
     background-color: #D3E397; }
 
 .preview {
-  height: 400px;
+  height: 300px;
   overflow-y: auto; }
 
 .report-current {
@@ -125,3 +177,21 @@ typr-upload {
 .typr-upload {
   padding: 50px;
   padding-top: 20px; }
+
+.content {
+  padding-left: 30px;
+  margin-top: 4px; }
+
+.start-practice {
+  border: 0;
+  font-size: 30px;
+  background-color: #B9D25B;
+  border-radius: 10px;
+  padding: 10px; }
+  .start-practice .glyphicon {
+    margin-right: 10px;
+    position: relative;
+    top: 5px; }
+
+.start-practice:hover {
+  background-color: #98BBCD; }
