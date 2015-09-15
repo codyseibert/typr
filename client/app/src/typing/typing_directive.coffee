@@ -52,6 +52,10 @@ module.exports = [
         , 1000
 
       setFirstAsRed = ->
+        $timeout ->
+          elem.scrollTopAnimated 0
+        , 100
+
         angular.element(elem[0].querySelector('.code')).html codeService.getHtml()
         codeService.reset()
         code = elem[0].querySelector('.code')
@@ -101,7 +105,7 @@ module.exports = [
           snippitsService.persist()
           $interval.cancel interval
           scope.isTyping = false
-          scope.$parent.doneWithPractice()
+          scope.done()
 
       # TODO: Look into why I am using watch
       scope.$watch ->

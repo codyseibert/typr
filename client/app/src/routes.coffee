@@ -5,13 +5,6 @@ module.exports = (
   $urlRouterProvider.otherwise '/reports'
 
   $stateProvider
-    .state 'typing',
-      url: '/typing'
-      views:
-        'main':
-          controller: 'TypingCtrl'
-          templateUrl: 'typing/typing.html'
-
     .state 'reports',
       url: '/reports'
       views:

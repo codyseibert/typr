@@ -24,6 +24,7 @@ module.exports = [
 
     # TODO: Rethink this logic
     $scope.doneWithPractice = ->
+      modalInstance.close()
       reports = $scope.snippit.reports
       $scope.reportClicked reports[reports.length - 1]
       $scope.snippitClicked $scope.snippit
@@ -73,9 +74,6 @@ module.exports = [
       $scope.snippitClicked $scope.snippits[$scope.snippits.length - 1]
       modalInstance.close()
 
-    $scope.start = ->
-      $scope.isTyping = true
-
     $scope.openModal = ->
       modalInstance = $modal.open
         animation: true
@@ -85,6 +83,22 @@ module.exports = [
         resolve:
           upload: ->
             $scope.upload
+
+    $scope.openTypingModal = ->
+      $scope.isTyping = true
+
+      modalInstance = $modal.open
+        animation: true
+        controller: 'TypingModalCtrl'
+        templateUrl: 'typing/typing_modal.html'
+        size: 'lg'
+        resolve:
+          isTyping: ->
+            $scope.isTyping
+          snippit: ->
+            $scope.snippit
+          done: ->
+            $scope.doneWithPractice
 
     lastSnippit = snippitsService.getLastSnippit()
     $scope.snippitClicked(lastSnippit) if lastSnippit?

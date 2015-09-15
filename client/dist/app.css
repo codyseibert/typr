@@ -33,6 +33,13 @@ body {
 .report-selected {
   background-color: #D3E397; }
 
+.typr-typing {
+  padding: 50px;
+  padding-top: 20px;
+  text-align: left; }
+  .typr-typing .centered {
+    text-align: center; }
+
 typr-typing {
   margin-top: 100px;
   display: inline-block;

@@ -1,7 +1,4 @@
-.row(
-  ng-hide="isTyping"
-)
-  
+.row
   //- 
   //- SNIPPIT LIST
   //- 
@@ -41,7 +38,7 @@
     h3 Reports
     
     .report(
-      ng-repeat="report in reports | orderBy:'date':true track by report.id"
+      ng-repeat="report in reports | orderBy:'time':true track by report.id"
       ng-click="reportClicked(report)"
       ng-class="{selected: report.selected}"
     ) {{report.date | amCalendar}}
@@ -69,20 +66,5 @@
     h3 Snippit Preview
     pre.preview {{snippit.code}}
     button(
-      ng-click="start(); typrStart()"
+      ng-click="openTypingModal(); typrStart()"
     ) Start Pratice!
-  
-  //- 
-  //- HIDDEN TYPR
-  //- 
-.row(
-  ng-show="isTyping"
-) 
-  .col-md-12.centered
-    h1 {{snippit.name}}
-    
-  .col-md-12.full.centered
-    typr-typing(
-      snippit="snippit"
-      is-typing="isTyping"
-    ).typing

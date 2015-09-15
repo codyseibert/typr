@@ -48767,6 +48767,7 @@ module.exports = [
     modalInstance = null;
     $scope.doneWithPractice = function() {
       var reports;
+      modalInstance.close();
       reports = $scope.snippit.reports;
       $scope.reportClicked(reports[reports.length - 1]);
       return $scope.snippitClicked($scope.snippit);
@@ -48812,9 +48813,6 @@ module.exports = [
       $scope.snippitClicked($scope.snippits[$scope.snippits.length - 1]);
       return modalInstance.close();
     };
-    $scope.start = function() {
-      return $scope.isTyping = true;
-    };
     $scope.openModal = function() {
       return modalInstance = $modal.open({
         animation: true,
@@ -48824,6 +48822,26 @@ module.exports = [
         resolve: {
           upload: function() {
             return $scope.upload;
+          }
+        }
+      });
+    };
+    $scope.openTypingModal = function() {
+      $scope.isTyping = true;
+      return modalInstance = $modal.open({
+        animation: true,
+        controller: 'TypingModalCtrl',
+        templateUrl: 'typing/typing_modal.html',
+        size: 'lg',
+        resolve: {
+          isTyping: function() {
+            return $scope.isTyping;
+          },
+          snippit: function() {
+            return $scope.snippit;
+          },
+          done: function() {
+            return $scope.doneWithPractice;
           }
         }
       });
@@ -48883,15 +48901,7 @@ module.exports = [
 },{"guid":12}],21:[function(require,module,exports){
 module.exports = function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/reports');
-  $stateProvider.state('typing', {
-    url: '/typing',
-    views: {
-      'main': {
-        controller: 'TypingCtrl',
-        templateUrl: 'typing/typing.html'
-      }
-    }
-  }).state('reports', {
+  $stateProvider.state('reports', {
     url: '/reports',
     views: {
       'main': {
@@ -48980,29 +48990,11 @@ var app;
 
 app = require('angular').module('typr');
 
-app.controller('TypingCtrl', require('./typing_controller'));
-
 app.directive('typrTyping', require('./typing_directive'));
 
-},{"./typing_controller":25,"./typing_directive":26,"angular":11}],25:[function(require,module,exports){
-module.exports = [
-  '$scope', '$state', 'codeService', function($scope, $state, codeService) {
-    if (codeService.code === '') {
-      $state.go('upload');
-    }
-    $scope.reports = [];
-    $scope.report = {};
-    return $scope.click = function(report) {
-      angular.forEach($scope.reports, function(value) {
-        return value.selected = false;
-      });
-      report.selected = true;
-      return $scope.visible = report;
-    };
-  }
-];
+app.controller('TypingModalCtrl', require('./typing_modal_controller'));
 
-},{}],26:[function(require,module,exports){
+},{"./typing_directive":25,"./typing_modal_controller":26,"angular":11}],25:[function(require,module,exports){
 module.exports = [
   '$window', '$interval', '$timeout', 'codeService', 'reportsService', 'snippitsService', function($window, $interval, $timeout, codeService, reportsService, snippitsService) {
     return {
@@ -49042,6 +49034,9 @@ module.exports = [
         };
         setFirstAsRed = function() {
           var code, first;
+          $timeout(function() {
+            return elem.scrollTopAnimated(0);
+          }, 100);
           angular.element(elem[0].querySelector('.code')).html(codeService.getHtml());
           codeService.reset();
           code = elem[0].querySelector('.code');
@@ -49092,7 +49087,7 @@ module.exports = [
             snippitsService.persist();
             $interval.cancel(interval);
             scope.isTyping = false;
-            return scope.$parent.doneWithPractice();
+            return scope.done();
           }
         };
         scope.$watch(function() {
@@ -49129,6 +49124,15 @@ module.exports = [
         };
       }
     };
+  }
+];
+
+},{}],26:[function(require,module,exports){
+module.exports = [
+  '$scope', '$modalInstance', 'snippit', 'isTyping', 'done', function($scope, $modalInstance, snippit, isTyping, done) {
+    $scope.snippit = snippit;
+    $scope.isTyping = isTyping;
+    return $scope.done = done;
   }
 ];
 
