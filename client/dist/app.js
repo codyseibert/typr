@@ -48757,7 +48757,7 @@ module.exports = [
 
 },{}],19:[function(require,module,exports){
 module.exports = [
-  '$scope', '$state', '$modal', '$filter', 'codeService', 'snippitsService', 'reportsService', function($scope, $state, $modal, $filter, codeService, snippitsService, reportsService) {
+  '$scope', '$state', '$modal', '$filter', '$timeout', 'codeService', 'snippitsService', 'reportsService', function($scope, $state, $modal, $filter, $timeout, codeService, snippitsService, reportsService) {
     var lastSnippit, modalInstance;
     $scope.snippits = snippitsService.getAll();
     $scope.snippit = null;
@@ -48765,6 +48765,9 @@ module.exports = [
     $scope.reports = [];
     $scope.uploadClicked = false;
     modalInstance = null;
+    $scope.cb = {
+      typrStart: null
+    };
     $scope.doneWithPractice = function() {
       var reports;
       modalInstance.close();
@@ -48859,7 +48862,7 @@ module.exports = [
     };
     $scope.openTypingModal = function() {
       $scope.isTyping = true;
-      return modalInstance = $modal.open({
+      modalInstance = $modal.open({
         animation: true,
         controller: 'TypingModalCtrl',
         templateUrl: 'typing/typing_modal.html',
@@ -48873,9 +48876,15 @@ module.exports = [
           },
           done: function() {
             return $scope.doneWithPractice;
+          },
+          cb: function() {
+            return $scope.cb;
           }
         }
       });
+      return $timeout(function() {
+        return $scope.cb.typrStart();
+      }, 100);
     };
     lastSnippit = snippitsService.getLastSnippit();
     if (lastSnippit != null) {
@@ -49034,12 +49043,15 @@ module.exports = [
       scope: {
         snippit: '=',
         isTyping: '=',
-        done: '='
+        done: '=',
+        elapsed: '=',
+        countdown: '='
       },
       link: function(scope, elem, attr) {
-        var SPACE, checkIfDone, createInterval, id, index, interval, onBreak, setFirstAsRed, step;
+        var SPACE, WAIT_TIME, checkIfDone, createPracticeInterval, createWaitInterval, id, index, interval, onBreak, setFirstAsRed, step;
         elem[0].querySelector('.type').focus();
         id = 1;
+        WAIT_TIME = 3000;
         scope.averageTokenLen = 1;
         scope.charsPerMin = 0;
         scope.secElapsed = 0;
@@ -49053,12 +49065,24 @@ module.exports = [
         SPACE = 13;
         onBreak = false;
         interval = null;
-        createInterval = function() {
+        createWaitInterval = function() {
+          var countdown;
+          countdown = $interval(function() {
+            return scope.countdown--;
+          }, 1000);
+          return $timeout(function() {
+            $interval.cancel(countdown);
+            scope.countdown = null;
+            return createPracticeInterval();
+          }, WAIT_TIME);
+        };
+        createPracticeInterval = function() {
           if (interval != null) {
             $interval.cancel(interval);
           }
           return interval = $interval(function() {
             scope.secElapsed++;
+            scope.elapsed = scope.secElapsed;
             scope.charsPerMin = parseInt((scope.correct / scope.secElapsed) * 60);
             return scope.tokensPerMin = scope.charsPerMin / codeService.getAverageTokenLength();
           }, 1000);
@@ -49131,16 +49155,21 @@ module.exports = [
             return elem[0].querySelector('.type').focus();
           }
         };
-        scope.$parent['typrStart'] = function() {
+        scope.$parent.cb['typrStart'] = function() {
           setTimeout(function() {
             return elem[0].querySelector('.type').focus();
           }, 100);
           setFirstAsRed();
-          createInterval();
+          scope.elapsed = 0;
+          scope.countdown = 3;
+          createWaitInterval();
           return true;
         };
         return scope.keypress = function($event) {
           var char, code, next;
+          if (scope.countdown != null) {
+            return;
+          }
           scope.strokes++;
           code = $event.keyCode || $event.which;
           char = String.fromCharCode(code);
@@ -49160,10 +49189,12 @@ module.exports = [
 
 },{}],26:[function(require,module,exports){
 module.exports = [
-  '$scope', '$modalInstance', 'snippit', 'isTyping', 'done', function($scope, $modalInstance, snippit, isTyping, done) {
+  '$scope', '$modalInstance', 'snippit', 'isTyping', 'done', 'cb', function($scope, $modalInstance, snippit, isTyping, done, cb) {
     $scope.snippit = snippit;
     $scope.isTyping = isTyping;
-    return $scope.done = done;
+    $scope.done = done;
+    $scope.elapsed = 0;
+    return $scope.cb = cb;
   }
 ];
 

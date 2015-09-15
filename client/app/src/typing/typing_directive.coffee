@@ -21,11 +21,15 @@ module.exports = [
       snippit: '='
       isTyping: '='
       done: '='
+      elapsed: '='
+      countdown: '='
 
     link: (scope, elem, attr) ->
       elem[0].querySelector('.type').focus()
 
       id = 1
+
+      WAIT_TIME = 3000
 
       # TODO: Refactor (see below)
       scope.averageTokenLen = 1
@@ -43,10 +47,22 @@ module.exports = [
       onBreak = false
       interval = null
 
-      createInterval = ->
+      createWaitInterval = ->
+        countdown = $interval ->
+          scope.countdown--
+        , 1000
+
+        $timeout ->
+          $interval.cancel countdown
+          scope.countdown = null
+          createPracticeInterval()
+        , WAIT_TIME
+
+      createPracticeInterval = ->
         $interval.cancel interval if interval?
         interval = $interval ->
           scope.secElapsed++
+          scope.elapsed = scope.secElapsed
           scope.charsPerMin = parseInt ((scope.correct / scope.secElapsed) * 60)
           scope.tokensPerMin = scope.charsPerMin / codeService.getAverageTokenLength()
         , 1000
@@ -117,15 +133,19 @@ module.exports = [
         if !scope.paused
           elem[0].querySelector('.type').focus()
 
-      scope.$parent['typrStart'] = ->
+      scope.$parent.cb['typrStart'] = ->
         setTimeout ->
           elem[0].querySelector('.type').focus()
         , 100
         setFirstAsRed()
-        createInterval()
+        scope.elapsed = 0
+        scope.countdown = 3
+        createWaitInterval()
         return true
 
       scope.keypress = ($event) ->
+        return if scope.countdown?
+
         scope.strokes++
 
         code = $event.keyCode or $event.which

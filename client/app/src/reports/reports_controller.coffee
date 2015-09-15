@@ -3,6 +3,7 @@ module.exports = [
   '$state'
   '$modal'
   '$filter'
+  '$timeout'
   'codeService'
   'snippitsService'
   'reportsService'
@@ -11,6 +12,7 @@ module.exports = [
     $state
     $modal
     $filter
+    $timeout
     codeService
     snippitsService
     reportsService
@@ -23,6 +25,8 @@ module.exports = [
     $scope.uploadClicked = false
 
     modalInstance = null
+    $scope.cb =
+      typrStart: null
 
     # TODO: Rethink this logic
     $scope.doneWithPractice = ->
@@ -131,6 +135,13 @@ module.exports = [
             $scope.snippit
           done: ->
             $scope.doneWithPractice
+          cb: ->
+            $scope.cb
+
+      # TODO: Refactor
+      $timeout ->
+        $scope.cb.typrStart()
+      , 100
 
     lastSnippit = snippitsService.getLastSnippit()
     $scope.snippitClicked(lastSnippit) if lastSnippit?
