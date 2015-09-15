@@ -77,7 +77,7 @@ module.exports = [
 
         angular.forEach $scope.snippit.reports, (value) ->
           $scope.charts.cpm.labels.push $filter('amCalendar')(value.date)
-          cpm.push value.charsPerMinute
+          cpm.push value.charsPerMin
         $scope.charts.cpm.data = [
           cpm
         ]

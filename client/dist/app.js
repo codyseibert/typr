@@ -48815,7 +48815,7 @@ module.exports = [
         cpm = [];
         angular.forEach($scope.snippit.reports, function(value) {
           $scope.charts.cpm.labels.push($filter('amCalendar')(value.date));
-          return cpm.push(value.charsPerMinute);
+          return cpm.push(value.charsPerMin);
         });
         return $scope.charts.cpm.data = [cpm];
       };
