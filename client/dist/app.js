@@ -48757,7 +48757,7 @@ module.exports = [
 
 },{}],19:[function(require,module,exports){
 module.exports = [
-  '$scope', '$state', '$modal', 'codeService', 'snippitsService', 'reportsService', function($scope, $state, $modal, codeService, snippitsService, reportsService) {
+  '$scope', '$state', '$modal', '$filter', 'codeService', 'snippitsService', 'reportsService', function($scope, $state, $modal, $filter, codeService, snippitsService, reportsService) {
     var lastSnippit, modalInstance;
     $scope.snippits = snippitsService.getAll();
     $scope.snippit = null;
@@ -48773,7 +48773,7 @@ module.exports = [
       return $scope.snippitClicked($scope.snippit);
     };
     $scope.snippitClicked = function(snippit) {
-      var accuracy, cpm;
+      var createAccuracyChart, createCPMChart, createTimeChart;
       snippitsService.setLastSnippit(snippit);
       $scope.reports = null;
       $scope.report = null;
@@ -48789,16 +48789,47 @@ module.exports = [
       if ($scope.reports.length > 0) {
         $scope.reportClicked($scope.reports[$scope.reports.length - 1]);
       }
-      $scope.labels = [];
-      $scope.series = ['Accuracy', 'CPM'];
-      accuracy = [];
-      cpm = [];
-      angular.forEach($scope.snippit.reports, function(value) {
-        $scope.labels.push('test');
-        accuracy.push(value.accuracy);
-        return cpm.push(value.charsPerMin);
-      });
-      return $scope.data = [accuracy, cpm];
+      $scope.charts = {
+        accuracy: {},
+        cpm: {},
+        time: {}
+      };
+      createAccuracyChart = function() {
+        var accuracy;
+        $scope.charts.accuracy.labels = [];
+        $scope.charts.accuracy.series = ['Accuracy'];
+        accuracy = [];
+        angular.forEach($scope.snippit.reports, function(value) {
+          $scope.charts.accuracy.labels.push($filter('amCalendar')(value.date));
+          return accuracy.push(value.accuracy);
+        });
+        return $scope.charts.accuracy.data = [accuracy];
+      };
+      createCPMChart = function() {
+        var cpm;
+        $scope.charts.cpm.labels = [];
+        $scope.charts.cpm.series = ['CPM'];
+        cpm = [];
+        angular.forEach($scope.snippit.reports, function(value) {
+          $scope.charts.cpm.labels.push($filter('amCalendar')(value.date));
+          return cpm.push(value.charsPerMinute);
+        });
+        return $scope.charts.cpm.data = [cpm];
+      };
+      createTimeChart = function() {
+        var time;
+        $scope.charts.time.labels = [];
+        $scope.charts.time.series = ['Accuracy'];
+        time = [];
+        angular.forEach($scope.snippit.reports, function(value) {
+          $scope.charts.time.labels.push($filter('amCalendar')(value.date));
+          return time.push(value.secElapsed);
+        });
+        return $scope.charts.time.data = [time];
+      };
+      createAccuracyChart();
+      createCPMChart();
+      return createTimeChart();
     };
     $scope.reportClicked = function(report) {
       angular.forEach($scope.reports, function(value) {

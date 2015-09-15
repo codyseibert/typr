@@ -2,6 +2,7 @@ module.exports = [
   '$scope'
   '$state'
   '$modal'
+  '$filter'
   'codeService'
   'snippitsService'
   'reportsService'
@@ -9,6 +10,7 @@ module.exports = [
     $scope
     $state
     $modal
+    $filter
     codeService
     snippitsService
     reportsService
@@ -47,20 +49,50 @@ module.exports = [
       if $scope.reports.length > 0
         $scope.reportClicked $scope.reports[$scope.reports.length - 1]
 
-      $scope.labels = []
-      $scope.series = ['Accuracy', 'CPM']
-      accuracy = []
-      cpm = []
+      $scope.charts =
+        accuracy: {}
+        cpm: {}
+        time: {}
 
-      # TODO: Fix Chart Stuff
-      angular.forEach $scope.snippit.reports, (value) ->
-        $scope.labels.push 'test'
-        accuracy.push value.accuracy
-        cpm.push value.charsPerMin
-      $scope.data = [
-        accuracy
-        cpm
-      ]
+      createAccuracyChart = ->
+        $scope.charts.accuracy.labels = []
+        $scope.charts.accuracy.series = ['Accuracy']
+        accuracy = []
+
+        angular.forEach $scope.snippit.reports, (value) ->
+          $scope.charts.accuracy.labels.push $filter('amCalendar')(value.date)
+          accuracy.push value.accuracy
+        $scope.charts.accuracy.data = [
+          accuracy
+        ]
+
+      createCPMChart = ->
+        $scope.charts.cpm.labels = []
+        $scope.charts.cpm.series = ['CPM']
+        cpm = []
+
+        angular.forEach $scope.snippit.reports, (value) ->
+          $scope.charts.cpm.labels.push $filter('amCalendar')(value.date)
+          cpm.push value.charsPerMinute
+        $scope.charts.cpm.data = [
+          cpm
+        ]
+
+      createTimeChart = ->
+        $scope.charts.time.labels = []
+        $scope.charts.time.series = ['Accuracy']
+        time = []
+
+        angular.forEach $scope.snippit.reports, (value) ->
+          $scope.charts.time.labels.push $filter('amCalendar')(value.date)
+          time.push value.secElapsed
+        $scope.charts.time.data = [
+          time
+        ]
+
+      createAccuracyChart()
+      createCPMChart()
+      createTimeChart()
 
     $scope.reportClicked = (report) ->
       angular.forEach $scope.reports, (value) ->

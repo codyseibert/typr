@@ -22,11 +22,31 @@
   ) 
     h3 {{snippit.name}} Analytics
     
+    h3 Accuracy
     canvas.chart.chart-line(
-      chart-labels="labels" 
-      chart-legend="true" 
-      chart-series="series"
-      chart-data="data"
+      chart-labels="charts.accuracy.labels" 
+      chart-legend="false" 
+      chart-series="charts.accuracy.series"
+      chart-data="charts.accuracy.data"
+      chart-hover=""
+    )
+    
+    h3 CPM
+    canvas.chart.chart-line(
+      chart-labels="charts.cpm.labels" 
+      chart-legend="false" 
+      chart-series="charts.cpm.series"
+      chart-data="charts.cpm.data"
+      chart-hover=""
+    )
+    
+    h3 Time
+    canvas.chart.chart-line(
+      chart-labels="charts.time.labels" 
+      chart-legend="false" 
+      chart-series="charts.time.series"
+      chart-data="charts.time.data"
+      chart-hover=""
     )
     
   //- 
