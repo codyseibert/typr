@@ -31,6 +31,10 @@ module.exports = [
     $scope.snippitClicked = (snippit) ->
       snippitsService.setLastSnippit snippit
 
+      $scope.reports = null
+      $scope.report = null
+      $scope.selected = null
+
       angular.forEach $scope.snippits, (value) ->
         value.selected = false
       snippit.selected = true
@@ -39,6 +43,9 @@ module.exports = [
       codeService.setCode snippit.code
       $scope.snippit = snippit
 
+      if $scope.reports.length > 0
+        $scope.reportClicked $scope.reports[$scope.reports.length - 1]
+
       $scope.labels = []
       $scope.series = ['Accuracy', 'CPM']
       accuracy = []
@@ -46,7 +53,7 @@ module.exports = [
 
       # TODO: Fix Chart Stuff
       angular.forEach $scope.snippit.reports, (value) ->
-        $scope.labels.push 'test' #value.date
+        $scope.labels.push 'test'
         accuracy.push value.accuracy
         cpm.push value.charsPerMin
       $scope.data = [
@@ -62,7 +69,6 @@ module.exports = [
       $scope.report = report
 
     $scope.upload = ->
-      # TODO: Refactor this
       $scope.report = null
       $scope.snippitClicked $scope.snippits[$scope.snippits.length - 1]
       modalInstance.close()

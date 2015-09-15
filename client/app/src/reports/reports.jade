@@ -41,7 +41,7 @@
     h3 Reports
     
     .report(
-      ng-repeat="report in reports | orderBy:report.date:true track by report.id"
+      ng-repeat="report in reports | orderBy:'date':true track by report.id"
       ng-click="reportClicked(report)"
       ng-class="{selected: report.selected}"
     ) {{report.date | amCalendar}}

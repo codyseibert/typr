@@ -48774,6 +48774,9 @@ module.exports = [
     $scope.snippitClicked = function(snippit) {
       var accuracy, cpm;
       snippitsService.setLastSnippit(snippit);
+      $scope.reports = null;
+      $scope.report = null;
+      $scope.selected = null;
       angular.forEach($scope.snippits, function(value) {
         return value.selected = false;
       });
@@ -48782,6 +48785,9 @@ module.exports = [
       $scope.reports = reportsService.getAll();
       codeService.setCode(snippit.code);
       $scope.snippit = snippit;
+      if ($scope.reports.length > 0) {
+        $scope.reportClicked($scope.reports[$scope.reports.length - 1]);
+      }
       $scope.labels = [];
       $scope.series = ['Accuracy', 'CPM'];
       accuracy = [];
