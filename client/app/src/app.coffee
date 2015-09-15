@@ -18,6 +18,7 @@ app.config [
   ) ->
     ChartJsProvider.setOptions
       animation: false
+      showTooltips: false
 ]
 require './typing'
 require './upload'

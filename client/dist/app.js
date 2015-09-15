@@ -48730,7 +48730,8 @@ app.config(require('./routes'));
 app.config([
   'ChartJsProvider', function(ChartJsProvider) {
     return ChartJsProvider.setOptions({
-      animation: false
+      animation: false,
+      showTooltips: false
     });
   }
 ]);

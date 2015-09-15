@@ -19,9 +19,9 @@ body {
   font-size: 30px;
   padding-left: 50px;
   padding-top: 16px;
-  background-color: #EAF1F5;
+  background-color: #F8FFDF;
   height: 80px;
-  box-shadow: 1px 1px 1px #CACACA;
+  box-shadow: 0px 1px 3px #C5C5C5;
   width: 100%;
   z-index: 5;
   position: relative; }
@@ -34,6 +34,12 @@ body {
 
 .mt1 {
   margin-top: 10px; }
+
+.pt1 {
+  padding-top: 10px; }
+
+.pt2 {
+  padding-top: 20px; }
 
 h1 {
   padding-left: 14px; }
@@ -108,7 +114,9 @@ typr-upload {
     margin-top: 20px; }
 
 .snippit-list {
-  text-align: right; }
+  text-align: right;
+  background-color: #EAF1F7;
+  box-shadow: 1px 0px 1px #8F99A0; }
   .snippit-list .snippit {
     font-size: 20px;
     padding-top: 10px;
@@ -132,14 +140,8 @@ typr-upload {
     padding-right: 5px;
     position: relative;
     top: 2px; }
-  .snippit-list .snippit.new:hover {
-    background-color: white;
-    color: #B9D25B; }
-    .snippit-list .snippit.new:hover .glyphicon {
-      color: #B9D25B; }
 
 .new-snippit {
-  background-color: pink;
   position: relative;
   left: 0px; }
 
@@ -180,7 +182,7 @@ typr-upload {
 
 .content {
   padding-left: 30px;
-  margin-top: 4px; }
+  background-color: #FBFBFB; }
 
 .start-practice {
   border: 0;

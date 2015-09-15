@@ -1,6 +1,6 @@
 
 .row
-  .col-md-2.snippit-list.no-pad.mt2
+  .col-md-2.snippit-list.no-pad.pt2.full
     .snippit.new(
       ng-click="openModal()"
     )
@@ -16,7 +16,7 @@
       //- i.glyphicon.glyphicon-menu-left
     
   
-  .col-md-10.content
+  .col-md-10.content.full
     .row
       .col-md-12 
         h1 {{snippit.name}}
@@ -61,7 +61,7 @@
         ) 
           h3 {{report.date | amCalendar}}
           h5 Chars Per Minute (CPM): {{report.charsPerMin}}
-          h5 Tokens Per Minute (CPM): {{report.tokensPerMin | number: 0}}
+          h5 Tokens Per Minute (TPM): {{report.tokensPerMin | number: 0}}
           h5 Accuracy: {{report.accuracy | number:2}}% (Correct {{report.correct}} / Total: {{report.strokes}}))
           h5 Seconds Elapsed: {{report.secElapsed}}
           h5 Average Token Length: {{report.averageTokenLen | number:1}}
