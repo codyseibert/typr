@@ -40,7 +40,7 @@ module.exports = [
         animation: true
         controller: 'UploadModalCtrl'
         templateUrl: 'upload/upload_modal.html'
-        size: 'lg'
+        size: 'md'
         resolve:
           upload: ->
             snippitUploaded

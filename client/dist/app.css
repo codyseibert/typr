@@ -103,7 +103,7 @@ typr-upload {
     margin-bottom: 50px; }
   typr-upload textarea {
     width: 100%;
-    height: 50%; }
+    height: 30%; }
   typr-upload button {
     margin-top: 10px;
     height: 50px; }
@@ -199,10 +199,17 @@ typr-upload {
   background-color: #98BBCD; }
 
 typr-header .logo {
-  position: relative;
-  font-size: 40px;
-  top: 10px;
-  left: 10px; }
+  font-size: 40px; }
+  typr-header .logo i {
+    position: relative;
+    top: 14px;
+    left: 4px;
+    color: black;
+    font-size: 50px; }
+  typr-header .logo span {
+    position: relative;
+    top: 12px;
+    left: 10px; }
 
 typr-header .header {
   background-color: #FFF5C3; }

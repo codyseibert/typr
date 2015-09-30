@@ -3,6 +3,7 @@ TODO:
     - 5) Implement global
     - Implement about
     - 4) Implement profile
+    - snippit directive
     - 2) Login / Create Account (Top right)
       - create a create account page
       - login page
