@@ -1,0 +1,13 @@
+.row.header
+  .col-sm-2
+    span.logo Typr
+
+  .link(
+    ng-repeat="link in links"
+    ui-sref="{{link.state}}"
+    ng-class="{selected: link.selected}"
+    ng-click="select(link)"
+    class="col-sm-2"
+  ) 
+    i(class="{{link.icon}}") 
+    | {{link.title}}

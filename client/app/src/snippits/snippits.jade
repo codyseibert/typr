@@ -1,0 +1,29 @@
+.col-sm-12
+  h2 Filters
+  div.filter(
+    ng-repeat="filter in filters"
+    ng-click="select(filter)"
+    ng-class="{selected: filter.selected}"
+    class="col-sm-2"
+  )
+    i(class="glyphicon glyphicon-book")
+    | {{filter.name}}
+
+.col-sm-12
+  h2 Snippits
+  div.snippit(
+    ng-repeat="snippit in snippits track by $index"
+    class="col-sm-4"
+  ) 
+    h2 {{snippit.name}}
+    pre {{snippit.code}}
+    button.practice
+      i.glyphicon.glyphicon-flag
+      | Pratice
+    i(class="star glyphicon glyphicon-star")
+    i(class="star glyphicon glyphicon-star")
+    i(class="star glyphicon glyphicon-star")
+
+typr-button(
+  clicked="showUpload()"
+)

@@ -31,6 +31,8 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.1",
     "gulp-livereload": "^3.8.0",

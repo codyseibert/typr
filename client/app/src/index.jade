@@ -5,9 +5,7 @@ html
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Abel|Karla|Monda', type='text/css')
     script(src='app.js')
     script(src='templates.js')
-  body(ng-app='typr')
-    .top-nav 
-      span [Typr.IO]
-    .container-fluid
-      .row
-        .col-md-12.main(ui-view="main")
+  body(
+    ng-app='typr'
+  )
+    div(ui-view="main")

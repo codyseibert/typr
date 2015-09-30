@@ -197,3 +197,106 @@ typr-upload {
 
 .start-practice:hover {
   background-color: #98BBCD; }
+
+typr-header .logo {
+  position: relative;
+  font-size: 40px;
+  top: 10px;
+  left: 10px; }
+
+typr-header .header {
+  background-color: #FFF5C3; }
+
+typr-header .link {
+  display: inline-block;
+  padding-top: 17px;
+  padding-bottom: 20px;
+  font-size: 30px;
+  text-align: center;
+  background-color: #FFF5C3;
+  cursor: pointer; }
+  typr-header .link i {
+    position: relative;
+    top: 2px;
+    right: 10px;
+    font-size: 26px; }
+
+typr-header .link:hover {
+  background-color: #8DCDC1; }
+
+typr-header .link.selected {
+  background-color: white; }
+
+typr-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 24px;
+  outline: none; }
+  typr-button i {
+    position: relative;
+    top: 0px;
+    left: 1px; }
+  typr-button button {
+    background-color: #FFF5C3;
+    border-radius: 50%;
+    border: 1px solid black;
+    height: 70px;
+    width: 70px;
+    outline: none; }
+  typr-button button:hover {
+    background-color: #8DCDC1; }
+  typr-button button:active {
+    outline: none; }
+  typr-button button:focus {
+    outline: none; }
+
+button.practice {
+  border: 0;
+  font-size: 16px;
+  background-color: #B9D25B;
+  border-radius: 10px;
+  padding: 10px; }
+  button.practice .glyphicon {
+    margin-right: 10px;
+    position: relative;
+    top: 5px; }
+
+button.practice:hover {
+  background-color: #98BBCD; }
+
+button.practice:active {
+  outline: none; }
+
+button.practice:focus {
+  outline: none; }
+
+.snippit {
+  margin-bottom: 50px; }
+
+h2 {
+  margin-top: 50px; }
+
+pre {
+  height: 150px; }
+
+.star {
+  font-size: 30px;
+  position: relative;
+  top: 8px;
+  margin-left: 10px; }
+
+.filter {
+  margin-top: 20px;
+  font-size: 20px;
+  cursor: pointer; }
+  .filter i {
+    position: relative;
+    right: 10px; }
+
+.filter:hover {
+  color: #8DCDC1; }
+
+.filter.selected {
+  color: #8DCDC1;
+  text-shadow: 1px 1px #FFF5C3; }
