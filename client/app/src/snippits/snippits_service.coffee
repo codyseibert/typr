@@ -1,49 +1,30 @@
-Guid = require 'guid'
 _ = require 'underscore'
 
-module.exports = [ ->
+module.exports = [
+  '$http'
+  '$q'
+  (
+    $http
+    $q
+  ) ->
 
-  snippits = JSON.parse localStorage.getItem('typr.snippits') or '[]'
-  _.each snippits, (snippit) ->
-    snippit.selected = false
+    BASE_URL = 'http://localhost:8081'
 
-  class Snippit
-    constructor: (name, code) ->
-      @id = Guid.raw()
-      @name = name
-      @code = code
-      @reports = []
+    helper = (url, method = 'get', data) ->
+      deferred = $q.defer()
+      $http[method] "#{BASE_URL}/snippits", data
+        .then (ret) ->
+          deferred.resolve ret.data
+      deferred.promise
 
-    addReport: (report) ->
-      @reports.push report
+    index = ->
+      helper '/snippits'
 
-  getLastSnippit = ->
-    _.findWhere snippits, {id: localStorage.getItem 'typr.snippit.last'}
+    post = (snippit) ->
+      console.log 'posting', snippit
+      helper '/snippits', 'post', snippit
 
-  setLastSnippit = (snippit) ->
-    localStorage.setItem 'typr.snippit.last', snippit.id
-
-  persist = ->
-    localStorage.setItem 'typr.snippits', JSON.stringify snippits
-
-  getAll = ->
-    snippits
-
-  remove = (snippit) ->
-    snippits.splice snippit.id, 1
-    persist()
-
-  create = (name, code) ->
-    snippit = new Snippit name, code
-    snippits.push snippit
-    persist()
-    snippit
-
-  getLastSnippit: getLastSnippit
-  setLastSnippit: setLastSnippit
-  getAll: getAll
-  remove: remove
-  create: create
-  persist: persist
+    index: index
+    post: post
 
 ]

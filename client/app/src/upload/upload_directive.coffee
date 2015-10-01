@@ -19,8 +19,11 @@ module.exports = [
       scope.code = ''
 
       scope.upload = ->
-        snippitsService.create scope.name, scope.code
-        scope.uploadClicked()
+        snippitsService.post
+          name: scope.name
+          code: scope.code
+        .then ->
+          scope.uploadClicked()
 
       scope.canUpload = ->
         scope.code isnt '' and scope.name isnt ''

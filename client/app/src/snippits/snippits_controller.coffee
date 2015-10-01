@@ -1,39 +1,43 @@
 module.exports = [
   '$scope'
   '$modal'
+  '$filter'
   'snippitsService'
   (
     $scope
     $modal
+    $filter
     snippitsService
   ) ->
 
     modalInstance = null
+    $scope.filter = ''
+    $scope.snippits = []
 
-    class Filter
-      constructor: (name) ->
-        @name = name
+    getTypes = (snippits) ->
+      $filter('unique')(snippits, 'type').map (snippit) ->
+        name: snippit.type
 
-    $scope.filters = [
-      new Filter 'CoffeeScript'
-      new Filter 'JavaScript'
-      new Filter 'Python'
-      new Filter 'Ruby'
-      new Filter 'Java'
-      new Filter 'C++'
-      new Filter 'C#'
-    ]
+    loadSnippits = ->
+      snippitsService.index()
+        .then (snippits) ->
+          $scope.snippits = snippits
+          $scope.types = getTypes snippits
 
-    $scope.select = (filter) ->
-      angular.forEach $scope.filters, (filter) ->
-        filter.selected = false
-      filter.selected = true
+          if $scope.filter is ''
+            $scope.select $scope.types[0]
 
-    $scope.snippits = snippitsService.getAll()
+    loadSnippits()
+
+    $scope.select = (type) ->
+      angular.forEach $scope.types, (type) ->
+        type.selected = false
+      type.selected = true
+      $scope.filter = type.name
 
     snippitUploaded = ->
       modalInstance.close()
-      $scope.snippits = snippitsService.getAll()
+      loadSnippits()
 
     $scope.showUpload = ->
       modalInstance = $modal.open

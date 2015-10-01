@@ -1,6 +1,7 @@
 angular = require 'angular'
 require 'angular-scroll'
 require 'angular-chart.js'
+require 'angular-filter'
 
 app = require('angular').module('typr', [
   require 'angular-ui-router'
@@ -8,6 +9,7 @@ app = require('angular').module('typr', [
   require 'angular-bootstrap-npm'
   'duScroll'
   'chart.js'
+  'angular.filter'
   require 'angular-moment'
 ])
 app.config require './routes'
