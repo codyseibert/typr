@@ -49606,6 +49606,33 @@ module.exports = [
       type.selected = true;
       return $scope.filter = type.name;
     };
+    $scope.openSnippit = function(snippit) {
+      return modalInstance = $modal.open({
+        animation: true,
+        controller: 'TypingModalCtrl',
+        templateUrl: 'typing/typing_modal.html',
+        size: 'md',
+        resolve: {
+          snippit: function() {
+            return snippit;
+          },
+          isTyping: function() {
+            return true;
+          },
+          cb: function() {
+            return function() {
+              return console.log('here');
+            };
+          },
+          done: function() {
+            return function() {
+              modalInstance.close();
+              return console.log('done');
+            };
+          }
+        }
+      });
+    };
     snippitUploaded = function() {
       modalInstance.close();
       return loadSnippits();
@@ -49764,41 +49791,23 @@ module.exports = [
           }
         };
         checkIfDone = function() {
-          var report;
           if (codeService.isDone()) {
-            report = reportsService.create();
-            report.averageTokenLen = codeService.getAverageTokenLength();
-            report.charsPerMin = scope.charsPerMin;
-            report.tokensPerMin = scope.tokensPerMin || 0;
-            report.secElapsed = scope.secElapsed;
-            report.strokes = scope.strokes;
-            report.correct = scope.correct;
-            report.accuracy = scope.accuracy;
-            snippitsService.persist();
-            $interval.cancel(interval);
             scope.isTyping = false;
             return scope.done();
           }
         };
-        scope.$watch(function() {
-          return codeService.getCode();
-        }, function(newValue, oldValue) {
-          return setFirstAsRed();
-        });
+        codeService.setCode(scope.snippit.code);
+        setTimeout(function() {
+          return elem[0].querySelector('.type').focus();
+        }, 100);
+        setFirstAsRed();
+        scope.elapsed = 0;
+        scope.countdown = 3;
+        createWaitInterval();
         scope.blur = function() {
           if (!scope.paused) {
             return elem[0].querySelector('.type').focus();
           }
-        };
-        scope.$parent.cb['typrStart'] = function() {
-          setTimeout(function() {
-            return elem[0].querySelector('.type').focus();
-          }, 100);
-          setFirstAsRed();
-          scope.elapsed = 0;
-          scope.countdown = 3;
-          createWaitInterval();
-          return true;
         };
         return scope.keypress = function($event) {
           var char, code, next;

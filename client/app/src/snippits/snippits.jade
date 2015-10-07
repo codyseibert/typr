@@ -17,7 +17,9 @@
   ) 
     h2 {{snippit.name}} ({{snippit.type}})
     pre {{snippit.code}}
-    button.practice
+    button.practice(
+      ng-click="openSnippit(snippit)"
+    )
       i.glyphicon.glyphicon-flag
       | Pratice
 

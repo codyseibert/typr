@@ -35,6 +35,23 @@ module.exports = [
       type.selected = true
       $scope.filter = type.name
 
+    $scope.openSnippit = (snippit) ->
+      modalInstance = $modal.open
+        animation: true
+        controller: 'TypingModalCtrl'
+        templateUrl: 'typing/typing_modal.html'
+        size: 'md'
+        resolve:
+          snippit: -> snippit
+          isTyping: -> true
+          cb: ->
+            ->
+              console.log 'here'
+          done: ->
+            ->
+              modalInstance.close()
+              console.log 'done'
+
     snippitUploaded = ->
       modalInstance.close()
       loadSnippits()

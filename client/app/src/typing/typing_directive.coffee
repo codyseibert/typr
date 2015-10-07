@@ -110,38 +110,45 @@ module.exports = [
 
       checkIfDone = ->
         if codeService.isDone()
-          report = reportsService.create()
-          report.averageTokenLen = codeService.getAverageTokenLength()
-          report.charsPerMin = scope.charsPerMin
-          report.tokensPerMin = scope.tokensPerMin or 0
-          report.secElapsed = scope.secElapsed
-          report.strokes = scope.strokes
-          report.correct = scope.correct
-          report.accuracy = scope.accuracy
-          snippitsService.persist()
-          $interval.cancel interval
+          # report = reportsService.create()
+          # report.averageTokenLen = codeService.getAverageTokenLength()
+          # report.charsPerMin = scope.charsPerMin
+          # report.tokensPerMin = scope.tokensPerMin or 0
+          # report.secElapsed = scope.secElapsed
+          # report.strokes = scope.strokes
+          # report.correct = scope.correct
+          # report.accuracy = scope.accuracy
+          # snippitsService.persist()
+          # $interval.cancel interval
           scope.isTyping = false
           scope.done()
 
       # TODO: Look into why I am using watch
-      scope.$watch ->
-        codeService.getCode()
-      , (newValue, oldValue) ->
-        setFirstAsRed()
+      # scope.$watch ->
+      #   codeService.getCode()
+      # , (newValue, oldValue) ->
+      codeService.setCode scope.snippit.code
+      setTimeout ->
+        elem[0].querySelector('.type').focus()
+      , 100
+      setFirstAsRed()
+      scope.elapsed = 0
+      scope.countdown = 3
+      createWaitInterval()
 
       scope.blur = ->
         if !scope.paused
           elem[0].querySelector('.type').focus()
 
-      scope.$parent.cb['typrStart'] = ->
-        setTimeout ->
-          elem[0].querySelector('.type').focus()
-        , 100
-        setFirstAsRed()
-        scope.elapsed = 0
-        scope.countdown = 3
-        createWaitInterval()
-        return true
+      # scope.$parent.cb['typrStart'] = ->
+      #   setTimeout ->
+      #     elem[0].querySelector('.type').focus()
+      #   , 100
+      #   setFirstAsRed()
+      #   scope.elapsed = 0
+      #   scope.countdown = 3
+      #   createWaitInterval()
+      #   return true
 
       scope.keypress = ($event) ->
         return if scope.countdown?
