@@ -1,0 +1,11 @@
+button(
+  ng-click="newRecipe()"
+) Create New Recipe
+
+model.recipe.col-xs-12(
+  ng-repeat="recipe in recipes"
+  model="recipe"
+  key="id"
+  display="name"
+  attributes="attributes"
+)

@@ -84,10 +84,8 @@ STRING.prototype.toSql = function() {
 };
 STRING.prototype.validate = function(value) {
   if (Object.prototype.toString.call(value) !== '[object String]') {
-    if (this.options.binary) {
-      if (Buffer.isBuffer(value)) {
-        return true;
-      }
+    if ((this.options.binary && Buffer.isBuffer(value)) || _.isNumber(value)) {
+      return true;
     }
     throw new sequelizeErrors.ValidationError(util.format('%j is not a valid string', value));
   }
@@ -352,7 +350,7 @@ DECIMAL.prototype.toSql = function() {
   return 'DECIMAL';
 };
 DECIMAL.prototype.validate = function(value) {
-  if (!_.isNumber(value)) {
+  if (!Validator.isDecimal(value)) {
     throw new sequelizeErrors.ValidationError(util.format('%j is not a valid decimal', value));
   }
 
@@ -374,7 +372,7 @@ BOOLEAN.prototype.toSql = function() {
   return 'TINYINT(1)';
 };
 BOOLEAN.prototype.validate = function(value) {
-  if (!_.isBoolean(value)) {
+  if (!Validator.isBoolean(value)) {
     throw new sequelizeErrors.ValidationError(util.format('%j is not a valid boolean', value));
   }
 
@@ -667,10 +665,11 @@ UUIDV4.prototype.validate = function(value) {
  *   active: {
  *     type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ['createdAt']),
  *     get: function() {
- *       return this.get('createdAt') > Date.now() - (7 * 24 * 60 * 60 * 1000) 
+ *       return this.get('createdAt') > Date.now() - (7 * 24 * 60 * 60 * 1000)
  *     }
  *   }
  * }
+ * ```
  *
  * In the above code the password is stored plainly in the password field so it can be validated, but is never stored in the DB.
  * @property VIRTUAL

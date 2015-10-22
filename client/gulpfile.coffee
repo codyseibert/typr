@@ -9,6 +9,7 @@ sass = require 'gulp-sass'
 ngTemplates = require 'gulp-ng-templates'
 gulpIgnore = require 'gulp-ignore'
 connect = require 'gulp-connect'
+path = require 'path'
 
 gulp.task 'clean', ->
   del.sync [ 'tmp', 'build', 'dist' ]
@@ -32,7 +33,7 @@ gulp.task 'templates', ['jade'], ->
   gulp.src ['tmp/templates/**/*.html', '!tmp/templates/index.html']
     .pipe ngTemplates
       filename: 'templates.js'
-      module: 'typr'
+      module: 'recipes'
       standalone: false
     .pipe gulp.dest 'dist'
     .pipe connect.reload()
