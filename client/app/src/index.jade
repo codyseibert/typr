@@ -8,6 +8,7 @@ html
     script(src='app.js')
     script(src='templates.js')
   body(
-    ng-app='typr'
+    ng-app='recipes'
   )
-    div(ui-view="main")
+    .container-fluid
+      .row(ui-view="main")

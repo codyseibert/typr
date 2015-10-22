@@ -5,7 +5,7 @@ coffee = require 'gulp-coffee'
 gutil = require 'gulp-util'
 nodemon = require 'gulp-nodemon'
 
-gulp.task 'nodemon', ->
+gulp.task 'nodemon', ['build'], ->
   nodemon
     script: 'dist/server.js'
     ext: 'js'
