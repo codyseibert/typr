@@ -1,0 +1,14 @@
+.typr-typing
+  h1.centered
+    span.glyphicon.glyphicon-hourglass
+  h2.centered {{snippit.name}} 
+  h2.centered(ng-hide="countdown") {{elapsed}}s Elapsed
+  h2.centered(ng-show="countdown") Starts In {{countdown}}s!
+    
+  typr-typing(
+    snippit="snippit"
+    is-typing="isTyping"
+    done="done"
+    elapsed="elapsed"
+    countdown="countdown"
+  )

@@ -1,11 +1,34 @@
 angular = require 'angular'
+require 'angular-scroll'
+require 'angular-chart.js'
+require 'angular-filter'
 
-app = require('angular').module('recipes', [
+app = require('angular').module('typr', [
   require 'angular-ui-router'
   require 'angular-sanitize'
+  require 'angular-bootstrap-npm'
+  'duScroll'
+  'chart.js'
+  'angular.filter'
+  require 'angular-moment'
 ])
 app.config require './routes'
-
-require './recipes'
-require './model'
-require './editable'
+app.config [
+  'ChartJsProvider'
+  (
+    ChartJsProvider
+  ) ->
+    ChartJsProvider.setOptions
+      animation: false
+      showTooltips: false
+]
+require './typing'
+require './upload'
+require './code'
+require './snippits'
+require './reports'
+require './header'
+require './about'
+require './main'
+require './button'
+require './profile'

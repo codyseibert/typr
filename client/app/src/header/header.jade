@@ -1,0 +1,14 @@
+.row.header
+  .col-sm-2.logo
+    i.fa.fa-keyboard-o
+    span.logo TYPR
+
+  .link(
+    ng-repeat="link in links"
+    ui-sref="{{link.state}}"
+    ng-class="{selected: link.selected}"
+    ng-click="select(link)"
+    class="col-sm-2"
+  ) 
+    i(class="{{link.icon}}") 
+    | {{link.title}}

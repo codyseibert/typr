@@ -1,13 +1,13 @@
-var app, recipesController;
+var app, snippitsCtrl;
 
 app = require('./app');
 
-recipesController = require('./controllers/recipes_controller');
+snippitsCtrl = require('./controllers/snippits_controller');
 
 module.exports = (function() {
-  app.get('/recipes', recipesController.index);
-  app.get('/recipes/:id', recipesController.show);
-  app.post('/recipes', recipesController.post);
-  app.put('/recipes/:id', recipesController.put);
-  return app["delete"]('/recipes/:id', recipesController.destroy);
+  app.get('/snippits', snippitsCtrl.index);
+  app.get('/snippits/:id', snippitsCtrl.show);
+  app.post('/snippits', snippitsCtrl.post);
+  app.put('/snippits/:id', snippitsCtrl.put);
+  return app["delete"]('/snippits/:id', snippitsCtrl.destroy);
 })();
