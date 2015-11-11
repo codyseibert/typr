@@ -2,9 +2,9 @@ var Promise, Snippit, _;
 
 Promise = require('bluebird');
 
-Snippit = require('../models/snippit');
-
 _ = require('underscore');
+
+Snippit = require('../models/snippit');
 
 module.exports = (function() {
   var TYPE_REGEX, destroy, getType, index, post, put, show, stripType;
@@ -52,7 +52,7 @@ module.exports = (function() {
   post = function(req, res) {
     req.body.type = getType(req.body.code);
     req.body.code = stripType(req.body.code);
-    return Snippit.create(_.pick(req.body, ['name', 'code', 'type'])).then(function(task) {
+    return Snippit.create(req.body).then(function(task) {
       res.status(200);
       return res.send(task);
     });

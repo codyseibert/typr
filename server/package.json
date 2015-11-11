@@ -15,7 +15,9 @@
     "express": "^4.13.3",
     "mysql": "^2.9.0",
     "sequelize": "^3.10.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "cookie-parser": "~1.4.0",
+    "base64": "~2.1.0"
   },
   "devDependencies": {
     "coffee-script": "^1.10.0",

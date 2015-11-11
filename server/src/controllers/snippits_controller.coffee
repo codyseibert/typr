@@ -1,6 +1,6 @@
 Promise = require 'bluebird'
-Snippit = require '../models/snippit'
 _ = require 'underscore'
+Snippit = require '../models/snippit'
 
 module.exports = do ->
   index = undefined
@@ -43,7 +43,7 @@ module.exports = do ->
   post = (req, res) ->
     req.body.type = getType req.body.code
     req.body.code = stripType req.body.code
-    Snippit.create _.pick(req.body, ['name', 'code', 'type'])
+    Snippit.create req.body
       .then (task) ->
         res.status 200
         res.send task

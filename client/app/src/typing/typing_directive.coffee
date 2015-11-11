@@ -110,16 +110,15 @@ module.exports = [
 
       checkIfDone = ->
         if codeService.isDone()
-          # report = reportsService.create()
-          # report.averageTokenLen = codeService.getAverageTokenLength()
-          # report.charsPerMin = scope.charsPerMin
-          # report.tokensPerMin = scope.tokensPerMin or 0
-          # report.secElapsed = scope.secElapsed
-          # report.strokes = scope.strokes
-          # report.correct = scope.correct
-          # report.accuracy = scope.accuracy
-          # snippitsService.persist()
-          # $interval.cancel interval
+          reportsService.post
+            averageTokenLength: codeService.getAverageTokenLength()
+            charsPerMin: parseInt scope.charsPerMin
+            tokensPerMin: parseInt(scope.tokensPerMin or 0)
+            secElapsed: scope.secElapsed
+            strokes: scope.strokes
+            correct: scope.correct
+            accuracy: scope.accuracy
+          $interval.cancel interval
           scope.isTyping = false
           scope.done()
 

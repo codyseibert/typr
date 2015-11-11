@@ -1,6 +1,6 @@
-angular.module("typr").run(["$templateCache", function($templateCache) {$templateCache.put("about/about.html","");
-$templateCache.put("button/button.html","\n<button ng-click=\"clicked()\"> <i class=\"glyphicon glyphicon-plus\"></i></button>");
-$templateCache.put("global/global.html","");
+angular.module("typr").run(["$templateCache", function($templateCache) {$templateCache.put("button/button.html","\n<button ng-click=\"clicked()\"> <i class=\"glyphicon glyphicon-plus\"></i></button>");
+$templateCache.put("about/about.html","");
+$templateCache.put("global/global.html","\n<div class=\"col-sm-12\">\n  <h1>Filters</h1>\n</div>\n<div class=\"col-sm-12\">\n  <h1>Top Users</h1>\n</div>");
 $templateCache.put("header/header.html","\n<div class=\"row header\">\n  <div class=\"col-sm-2 logo\"><i class=\"fa fa-keyboard-o\"></i><span class=\"logo\">TYPR</span></div>\n  <div ng-repeat=\"link in links\" ui-sref=\"{{link.state}}\" ng-class=\"{selected: link.selected}\" ng-click=\"select(link)\" class=\"link col-sm-2\"> <i class=\"{{link.icon}}\"> </i>{{link.title}}</div>\n</div>");
 $templateCache.put("main/main.html","\n<div class=\"container-fluid\">\n  <typr-header links=\"links\"></typr-header>\n  <div class=\"row\">\n    <div ui-view=\"page\" class=\"col-sm-12 main\"></div>\n  </div>\n</div>");
 $templateCache.put("profile/profile.html","");

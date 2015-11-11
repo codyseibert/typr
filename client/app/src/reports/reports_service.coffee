@@ -1,37 +1,25 @@
-Guid = require 'guid'
+_ = require 'underscore'
 
 module.exports = [
-  'snippitsService',
+  'HttpHelper'
   (
-    snippitsService
+    HttpHelper
   ) ->
 
-    snippit = null
+    index = ->
+      HttpHelper '/reports'
 
-    class Report
-      constructor: (name, code) ->
-        @id = Guid.raw()
-        @averageTokenLen = 0
-        @charsPerMin = 0
-        @secElapsed = 0
-        @accuracy = 0
-        @strokes = 0
-        @correct = 0
-        @date = new Date()
+    show = (id) ->
+      HttpHelper "/reports/#{id}"
 
-    getAll = ->
-      snippit.reports
+    post = (report) ->
+      HttpHelper '/reports', 'post', report
 
-    create = ->
-      report = new Report()
-      snippit.reports.push report
-      snippitsService.persist()
-      report
+    remove = (report) ->
+      HttpHelper "/reports/#{id}", 'delete'
 
-    setSnippit = (pSnippit) ->
-      snippit = pSnippit
-
-    getAll: getAll
-    create: create
-    setSnippit: setSnippit
-  ]
+    index: index
+    show: show
+    post: post
+    delete: remove
+]

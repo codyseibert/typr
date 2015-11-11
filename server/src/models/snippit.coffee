@@ -6,5 +6,4 @@ module.exports = do ->
     name: Sequelize.STRING
     code: Sequelize.TEXT
     type: Sequelize.STRING
-
   Snippit
