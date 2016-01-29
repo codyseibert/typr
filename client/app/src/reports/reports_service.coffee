@@ -1,37 +1,14 @@
-Guid = require 'guid'
 
 module.exports = [
-  'snippitsService',
+  '$resource'
+  'BACKEND_URL'
   (
-    snippitsService
+    $resource
+    BACKEND_URL
   ) ->
+    Reports = $resource "#{BACKEND_URL}/reports"
 
-    snippit = null
+    create: (report) ->
+      Reports.save(report).$promise
 
-    class Report
-      constructor: (name, code) ->
-        @id = Guid.raw()
-        @averageTokenLen = 0
-        @charsPerMin = 0
-        @secElapsed = 0
-        @accuracy = 0
-        @strokes = 0
-        @correct = 0
-        @date = new Date()
-
-    getAll = ->
-      snippit.reports
-
-    create = ->
-      report = new Report()
-      snippit.reports.push report
-      snippitsService.persist()
-      report
-
-    setSnippit = (pSnippit) ->
-      snippit = pSnippit
-
-    getAll: getAll
-    create: create
-    setSnippit: setSnippit
   ]

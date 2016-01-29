@@ -1,36 +1,32 @@
 models = require '../models/models'
-Snippits = models.Snippits
+Reports = models.Reports
 ObjectId = require('mongoose').Types.ObjectId
 lodash = require 'lodash'
-classifier = require 'language-classifier'
-log4js = require 'log4js'
-logger = log4js.getLogger 'app'
 
 module.exports = do ->
 
   index: (req, res) ->
-    Snippits.find().then (obj) ->
+    Reports.find().then (obj) ->
       res.status 200
       res.send obj
 
   show: (req, res) ->
-    Snippits.findById(req.params.id).then (obj) ->
+    Reports.findById(req.params.id).then (obj) ->
       res.status 200
       res.send obj
 
   post: (req, res) ->
     req.body.user_id = req.user._id
-    req.body.language = classifier req.body.code
-    Snippits.create(req.body).then (obj) ->
+    Reports.create(req.body).then (obj) ->
       res.status 200
       res.send obj
 
   put: (req, res) ->
-    Snippits.update(_id: new ObjectId(req.params.id), req.body).then (obj) ->
+    Reports.update(_id: new ObjectId(req.params.id), req.body).then (obj) ->
       res.status 200
       res.send obj
 
   destroy: (req, res) ->
-    Snippits.findById(req.params.id).remove().then (obj) ->
+    Reports.findById(req.params.id).remove().then (obj) ->
       res.status 200
       res.send obj

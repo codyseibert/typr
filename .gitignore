@@ -5,3 +5,6 @@ client/node_modules/
 
 server/node_modules/
 server/dist/
+
+node_modules/
+.vagrant/

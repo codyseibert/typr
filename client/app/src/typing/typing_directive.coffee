@@ -110,23 +110,25 @@ module.exports = [
 
       checkIfDone = ->
         if codeService.isDone()
-          # report = reportsService.create()
-          # report.averageTokenLen = codeService.getAverageTokenLength()
-          # report.charsPerMin = scope.charsPerMin
-          # report.tokensPerMin = scope.tokensPerMin or 0
-          # report.secElapsed = scope.secElapsed
-          # report.strokes = scope.strokes
-          # report.correct = scope.correct
-          # report.accuracy = scope.accuracy
-          # snippitsService.persist()
-          # $interval.cancel interval
-          scope.isTyping = false
-          scope.done()
+          report =
+            snippit_id: codeService.snippit_id
+            averageTokenLen: codeService.getAverageTokenLength()
+            charsPerMin: scope.charsPerMin
+            tokensPerMin: scope.tokensPerMin or 0
+            secElapsed: scope.secElapsed
+            strokes: scope.strokes
+            correct: scope.correct
+            accuracy: scope.accuracy
+          reportsService.create(report).then ->
+            $interval.cancel interval
+            scope.isTyping = false
+            scope.done()
 
       # TODO: Look into why I am using watch
       # scope.$watch ->
       #   codeService.getCode()
       # , (newValue, oldValue) ->
+      codeService.snippit_id = scope.snippit._id
       codeService.setCode scope.snippit.code
       setTimeout ->
         elem[0].querySelector('.type').focus()

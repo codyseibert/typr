@@ -3,6 +3,7 @@ module.exports = [ ->
     constructor: ->
       @code = ''
       @index = 0
+      @snippit_id = null
 
     setCode: (code) ->
       @code = code

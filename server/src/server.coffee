@@ -1,4 +1,4 @@
 require './routes'
-require './models/snippit'
-require('./sequelize').sync().then ->
-  require('./app').listen 8081
+app = require './app'
+require './db'
+app.listen 8081

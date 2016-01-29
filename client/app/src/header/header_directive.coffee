@@ -1,9 +1,11 @@
 module.exports = [
   '$state'
   '$filter'
+  '$rootScope'
   (
     $state
     $filter
+    $rootScope
   ) ->
     restrict: 'E'
 
@@ -19,6 +21,7 @@ module.exports = [
           link.selected = false
         link.selected = true
 
-      scope.select $filter('filter')(scope.links, state: $state.$current.name)[0]
+      scope.isLoggedIn = $rootScope.isLoggedIn
+      # scope.select $filter('filter')(scope.links, state: $state.$current.name)[0]
 
   ]

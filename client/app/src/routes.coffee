@@ -12,6 +12,20 @@ module.exports = (
           controller: 'MainCtrl'
           templateUrl: 'main/main.html'
 
+    .state 'main.logout',
+      url: 'logout'
+      views:
+        'page':
+          controller: 'LogoutCtrl'
+          templateUrl: 'logout/logout.html'
+
+    .state 'main.login',
+      url: 'login'
+      views:
+        'page':
+          controller: 'LoginCtrl'
+          templateUrl: 'login/login.html'
+
     .state 'main.about',
       url: 'about'
       views:

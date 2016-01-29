@@ -1,0 +1,23 @@
+.row.login
+  .col-md-12
+    .space
+    
+    .block
+      input(
+        type="email"
+        ng-model="email"
+        placeholder="email"
+      )
+    
+    .block
+      input(
+        type="password"
+        ng-model="password"
+        placeholder="password"
+      )
+
+    .block
+      button(
+        type="submit"
+        ng-click="login()"
+      ) Login

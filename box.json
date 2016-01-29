@@ -1,0 +1,15 @@
+{
+  "name": "hashicorp/trusty64",
+  "description": "This box contains Ubuntu 12.04 LTS 64-bit.",
+  "versions": [
+    {
+      "version": "0.0.1",
+      "providers": [
+        {
+          "name": "virtualbox",
+          "url": "https://atlas.hashicorp.com/ubuntu/boxes/trusty64/versions/20160120.0.1/providers/virtualbox.box"
+        }
+      ]
+    }
+  ]
+}

@@ -1,30 +1,17 @@
-_ = require 'underscore'
+_ = require 'lodash'
 
 module.exports = [
-  '$http'
-  '$q'
+  '$resource'
+  'BACKEND_URL'
   (
-    $http
-    $q
+    $resource
+    BACKEND_URL
   ) ->
+    Snippits = $resource "#{BACKEND_URL}/snippits"
+    
+    index: ->
+      Snippits.query().$promise
 
-    BASE_URL = 'http://localhost:8081'
-
-    helper = (url, method = 'get', data) ->
-      deferred = $q.defer()
-      $http[method] "#{BASE_URL}/snippits", data
-        .then (ret) ->
-          deferred.resolve ret.data
-      deferred.promise
-
-    index = ->
-      helper '/snippits'
-
-    post = (snippit) ->
-      console.log 'posting', snippit
-      helper '/snippits', 'post', snippit
-
-    index: index
-    post: post
-
+    post: (snippit) ->
+      Snippits.save(snippit).$promise
 ]

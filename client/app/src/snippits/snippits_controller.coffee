@@ -15,8 +15,8 @@ module.exports = [
     $scope.snippits = []
 
     getTypes = (snippits) ->
-      $filter('unique')(snippits, 'type').map (snippit) ->
-        name: snippit.type
+      $filter('unique')(snippits, 'language').map (snippit) ->
+        name: snippit.language
 
     loadSnippits = ->
       snippitsService.index()

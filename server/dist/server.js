@@ -1,7 +1,9 @@
+var app;
+
 require('./routes');
 
-require('./models/snippit');
+app = require('./app');
 
-require('./sequelize').sync().then(function() {
-  return require('./app').listen(8081);
-});
+require('./db');
+
+app.listen(8081);

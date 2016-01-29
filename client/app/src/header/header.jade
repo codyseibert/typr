@@ -12,3 +12,19 @@
   ) 
     i(class="{{link.icon}}") 
     | {{link.title}}
+    
+  .right
+    button(
+      ng-if="!isLoggedIn()"
+      ui-sref="main.login"
+    ) 
+      i.glyphicon.glyphicon-log-in
+      | Login
+      
+    button(
+      ng-if="isLoggedIn()"
+      ui-sref="main.logout"
+    )
+      i.glyphicon.glyphicon-log-out
+      | Logout
+      

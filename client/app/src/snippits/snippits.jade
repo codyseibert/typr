@@ -12,10 +12,10 @@
 .col-sm-12
   h2 Snippits
   div.snippit(
-    ng-repeat="snippit in snippits | where : {type: filter}"
+    ng-repeat="snippit in snippits | where : {language: filter}"
     class="col-sm-4"
   ) 
-    h2 {{snippit.name}} ({{snippit.type}})
+    h2 {{snippit.name}} ({{snippit.language}})
     pre {{snippit.code}}
     button.practice(
       ng-click="openSnippit(snippit)"
@@ -24,5 +24,6 @@
       | Pratice
 
 typr-button(
+  ng-if="isLoggedIn()"
   clicked="showUpload()"
 )
