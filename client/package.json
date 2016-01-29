@@ -15,6 +15,7 @@
     "angular-filter": "^0.5.8",
     "angular-local-storage": "^0.2.2",
     "angular-moment": "^0.10.3",
+    "angular-resource": "^1.4.9",
     "angular-sanitize": "^1.4.9",
     "angular-scroll": "^1.0.0",
     "angular-ui-router": "^0.2.17",

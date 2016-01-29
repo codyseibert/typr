@@ -29,8 +29,6 @@ app.config [
 
     localStorageServiceProvider
       .setPrefix 'typr'
-      .setStorageType 'sessionStorage'
-      .setNotify false, false
 ]
 require './typing'
 require './upload'
