@@ -2,6 +2,7 @@ client/tmp/
 client/build/
 client/dist/
 client/node_modules/
+client/bower_components/
 
 server/node_modules/
 server/dist/

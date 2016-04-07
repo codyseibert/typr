@@ -3,15 +3,19 @@ require 'angular-scroll'
 require 'angular-chart.js'
 require 'angular-filter'
 require 'angular-local-storage'
+require 'angular-material'
+require 'angular-animate'
 
 app = require('angular').module('typr', [
   require 'angular-ui-router'
   require 'angular-sanitize'
   require 'angular-bootstrap-npm'
   require 'angular-resource'
+  'ngAnimate'
   'duScroll'
   'chart.js'
   'angular.filter'
+  'ngMaterial'
   'LocalStorageModule'
   require 'angular-moment'
 ])
@@ -43,6 +47,8 @@ require './profile'
 require './login'
 require './logout'
 require './util'
+require './recent'
+require './favorites'
 
 app.run [
   'LoginService'

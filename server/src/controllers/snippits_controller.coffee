@@ -9,7 +9,12 @@ logger = log4js.getLogger 'app'
 module.exports = do ->
 
   index: (req, res) ->
-    Snippits.find().then (obj) ->
+    query = req.query
+    if req.query['_id$in']
+      query = 
+        '_id':
+          $in: req.query['_id$in'].split ','
+    Snippits.find(query).then (obj) ->
       res.status 200
       res.send obj
 

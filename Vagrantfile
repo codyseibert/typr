@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
-    vb.customize ["modifyvm", :id, "--cpus", "2"]
+    vb.customize ["modifyvm", :id, "--cpus", "1"]
 
     # change the network card hardware for better performance
     vb.customize ["modifyvm", :id, "--nictype1", "virtio" ]

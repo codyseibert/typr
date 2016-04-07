@@ -15,3 +15,5 @@ su - vagrant -c "cd /vagrant/client && npm install --no-bin-links"
 su - vagrant -c "cd /vagrant/server && npm install --no-bin-links"
 
 npm rebuild node-sass
+
+coffee /vagrant/server/src/scripts/build_db.coffee

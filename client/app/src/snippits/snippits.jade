@@ -1,29 +1,63 @@
-.col-sm-12
-  h2 Filters
-  div.filter(
-    ng-repeat="type in types"
-    ng-click="select(type)"
-    ng-class="{selected: type.selected}"
-    class="col-sm-2"
-  )
-    i(class="glyphicon glyphicon-book")
-    | {{type.name}}
-
-.col-sm-12
-  h2 Snippits
-  div.snippit(
-    ng-repeat="snippit in snippits | where : {language: filter}"
-    class="col-sm-4"
-  ) 
-    h2 {{snippit.name}} ({{snippit.language}})
-    pre {{snippit.code}}
-    button.practice(
-      ng-click="openSnippit(snippit)"
-    )
-      i.glyphicon.glyphicon-flag
-      | Pratice
-
-typr-button(
-  ng-if="isLoggedIn()"
-  clicked="showUpload()"
+div(
+  layout="column"
 )
+  h1 Browse Snippits
+
+  h2 Filters
+  div(
+    layout="row"
+  )
+    md-button.md-primary(
+      ng-repeat="type in types"
+      ng-click="select(type)"
+      ng-class="{selected: type.selected}"
+    ) {{type.name}}
+  
+  div(
+    layout-wrap
+    layout="row"
+  )
+    .fade(
+      flex="33"
+      ng-repeat="snippit in snippits | where : {language: filter}"  
+      style="min-width: 415px;"
+    )
+      md-card
+        md-card-title
+          md-card-title-text
+            span.md-headline.md-fg-primary {{snippit.name}} ({{snippit.language}})
+            span.md-subhead
+              span Average WPM: 124
+              br
+              span Best WPM: 80
+          md-card-title-media
+            div.md-media-sm
+              md-icon(
+                ng-click="unsetAsFavorite(snippit)"
+                md-font-library="material-icons"
+                ng-if="snippit.isFavorite"
+              ) favorite
+              md-icon(
+                ng-click="setAsFavorite(snippit)"
+                md-font-library="material-icons"
+                ng-if="!snippit.isFavorite"
+              ) favorite_border
+        md-card-actions(
+          layout="row"
+          layout-align="end center"
+        )
+          md-button.md-primary.md-raised(
+            ng-click="openSnippit(snippit)"
+          ) 
+            md-icon(
+              md-font-library="material-icons"
+            ) play_arrow
+            | Practice
+                
+md-button.md-accent.md-fab.bottom-right(
+  ng-if="isLoggedIn()"
+  ng-click="showUpload()"
+)
+  md-icon(
+    md-font-library="material-icons"
+  ) cloud_upload

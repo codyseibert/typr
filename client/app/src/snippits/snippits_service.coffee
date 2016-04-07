@@ -1,17 +1,22 @@
 _ = require 'lodash'
 
 module.exports = [
-  '$resource'
+  '$http'
+  '$q'
   'BACKEND_URL'
   (
-    $resource
+    $http
+    $q
     BACKEND_URL
   ) ->
-    Snippits = $resource "#{BACKEND_URL}/snippits"
-    
-    index: ->
-      Snippits.query().$promise
+
+    index: (filter) ->
+      $q (resolve, reject) ->
+        $http.get("#{BACKEND_URL}/snippits", params: filter).then (data) ->
+          resolve data.data
 
     post: (snippit) ->
-      Snippits.save(snippit).$promise
+      $q (resolve, reject) ->
+        $http.post("#{BACKEND_URL}/snippits", snippit).then (data) ->
+          resolve data.data
 ]

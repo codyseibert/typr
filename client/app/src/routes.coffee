@@ -40,6 +40,20 @@ module.exports = (
           controller: 'SnippitsCtrl'
           templateUrl: 'snippits/snippits.html'
 
+    .state 'main.recent',
+      url: 'recent'
+      views:
+        'page':
+          controller: 'RecentCtrl'
+          templateUrl: 'recent/recent.html'
+
+    .state 'main.favorites',
+      url: 'favorites'
+      views:
+        'page':
+          controller: 'FavoritesCtrl'
+          templateUrl: 'favorites/favorites.html'
+
     .state 'main.profile',
       url: 'profile'
       views:

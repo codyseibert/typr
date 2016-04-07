@@ -2,12 +2,16 @@ module.exports = [
   '$scope'
   '$modal'
   '$filter'
+  '$q'
   'snippitsService'
+  'favoritesService'
   (
     $scope
     $modal
     $filter
+    $q
     snippitsService
+    favoritesService
   ) ->
 
     modalInstance = null
@@ -18,16 +22,19 @@ module.exports = [
       $filter('unique')(snippits, 'language').map (snippit) ->
         name: snippit.language
 
-    loadSnippits = ->
+    $q.all([
       snippitsService.index()
-        .then (snippits) ->
-          $scope.snippits = snippits
-          $scope.types = getTypes snippits
+      favoritesService.index()
+    ]).then ([snippits, favorites]) ->
+      favorites = favorites.map (favorite) -> favorite.snippit
+      for snippit in snippits
+        snippit.isFavorite = true if snippit._id in favorites
 
-          if $scope.filter is ''
-            $scope.select $scope.types[0]
+      $scope.snippits = snippits
+      $scope.types = getTypes snippits
 
-    loadSnippits()
+      if $scope.filter is ''
+        $scope.select $scope.types[0]
 
     $scope.select = (type) ->
       angular.forEach $scope.types, (type) ->
@@ -54,7 +61,6 @@ module.exports = [
 
     snippitUploaded = ->
       modalInstance.close()
-      loadSnippits()
 
     $scope.showUpload = ->
       modalInstance = $modal.open
@@ -65,5 +71,13 @@ module.exports = [
         resolve:
           upload: ->
             snippitUploaded
+
+    $scope.unsetAsFavorite = (snippit) ->
+      favoritesService.delete snippit._id
+      snippit.isFavorite = false
+
+    $scope.setAsFavorite = (snippit) ->
+      favoritesService.post snippit
+      snippit.isFavorite = true
 
 ]

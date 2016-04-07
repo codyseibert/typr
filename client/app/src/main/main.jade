@@ -1,8 +1,63 @@
-.container-fluid
-  typr-header(
-    links="links"
-  )
-  .row
-    .col-sm-12.main(
-      ui-view="page"
-    )
+md-toolbar.md-hue-2.md-whiteframe-z2
+  .md-toolbar-tools
+    .left
+      span 
+        md-icon(
+          md-font-library="material-icons"
+        ) keyboard
+        | TYPR
+        
+      md-button.btn(
+        ui-sref="main.snippits"
+      )
+        md-icon(
+          md-font-library="material-icons"
+        ) search
+        | Browse
+        
+      //- md-button.btn(
+      //-   ui-sref="main.recent"
+      //- )
+      //-   md-icon(
+      //-     md-font-library="material-icons"
+      //-   ) playlist_play
+      //-   | Recent
+      //-   
+      md-button.btn(
+        ui-sref="main.favorites"
+      ) 
+        md-icon(
+          md-font-library="material-icons"
+        ) favorite
+        | Favorites
+
+      md-button.btn 
+        md-icon(
+          md-font-library="material-icons"
+        ) account_circle
+        | Profile
+
+      md-button.btn 
+        md-icon(
+          md-font-library="material-icons"
+        ) assessment
+        | Analyze
+        
+      md-button.btn 
+        md-icon(
+          md-font-library="material-icons"
+        ) live_help
+        | About
+                
+    .right
+      md-button
+        md-icon(
+          md-font-library="material-icons"
+        ) more_vert
+      
+
+md-content.md-padding(
+  layout="row"
+  ui-view="page"
+)
+    
