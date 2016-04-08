@@ -4,8 +4,12 @@
 workingDir  = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "hashicorp/trusty64"
-  config.vm.box_url = "box.json"
+
+  #config.vm.box = "hashicorp/trusty64"
+  # config.vm.box_url = "./ubuntu.json"
+
+  config.vm.box = "bento/centos-7.1"
+  config.vm.box_url = "./centos.json"
 
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 8081, host: 8081
@@ -27,5 +31,5 @@ Vagrant.configure(2) do |config|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
 
-  config.vm.provision :shell, :path => "#{workingDir}/provision/ubuntu_trusty64.sh"
+  config.vm.provision :shell, :path => "#{workingDir}/provision/centos_7.sh"
 end

@@ -1,14 +1,22 @@
 
 module.exports = [
-  '$resource'
+  '$http'
+  '$q'
   'BACKEND_URL'
   (
-    $resource
+    $http
+    $q
     BACKEND_URL
   ) ->
-    Reports = $resource "#{BACKEND_URL}/reports"
+
+    index: (report) ->
+      $q (resolve, reject) ->
+        $http.get("#{BACKEND_URL}/reports").then (data) ->
+          resolve data.data
 
     create: (report) ->
-      Reports.save(report).$promise
+      $q (resolve, reject) ->
+        $http.post("#{BACKEND_URL}/reports", report).then (data) ->
+          resolve data.data
 
   ]

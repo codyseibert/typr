@@ -6,14 +6,15 @@ lodash = require 'lodash'
 module.exports = do ->
 
   index: (req, res) ->
-    Reports.find().then (obj) ->
+    user_id = req.user._id
+    Reports.find(user_id: user_id).then (obj) ->
       res.status 200
       res.send obj
-
-  show: (req, res) ->
-    Reports.findById(req.params.id).then (obj) ->
-      res.status 200
-      res.send obj
+  #
+  # show: (req, res) ->
+  #   Reports.findById(req.params.id).then (obj) ->
+  #     res.status 200
+  #     res.send obj
 
   post: (req, res) ->
     req.body.user_id = req.user._id
@@ -21,12 +22,12 @@ module.exports = do ->
       res.status 200
       res.send obj
 
-  put: (req, res) ->
-    Reports.update(_id: new ObjectId(req.params.id), req.body).then (obj) ->
-      res.status 200
-      res.send obj
-
-  destroy: (req, res) ->
-    Reports.findById(req.params.id).remove().then (obj) ->
-      res.status 200
-      res.send obj
+  # put: (req, res) ->
+  #   Reports.update(_id: new ObjectId(req.params.id), req.body).then (obj) ->
+  #     res.status 200
+  #     res.send obj
+  #
+  # destroy: (req, res) ->
+  #   Reports.findById(req.params.id).remove().then (obj) ->
+  #     res.status 200
+  #     res.send obj

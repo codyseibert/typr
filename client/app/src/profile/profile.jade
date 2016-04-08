@@ -1,22 +1,72 @@
-//- div PROFILE
-//- 
-//- .col-sm-4
-//-   most recent Snippits
-//-   
-//- .col-sm-4
-//-   CPM (Yours) VS time
-//-   
-//- .col-sm-4
-//-   Mistakes Vs Time
-//-   
-//- .col-sm-4
-//-   Your Top Snippits
-//-   
-//- .col-sm-4
-//-   Your Worst Snippits
-//- 
-//- .col-sm-6
-//-   Your Best Keys
-//-   
-//- .col-sm-6
-//-   Your Worst Keys
+div(
+  layout="row"
+  layout-margin="10"
+  flex
+)
+  .md-whiteframe-z1.fade(
+    flex="20"
+    ng-if="animate.filters"
+  )
+    md-toolbar
+      .md-toolbar-tools
+        span Language Filters
+        span(flex)
+    md-content.text-center
+      md-button(
+        ng-repeat="language in languages"
+      ) {{language}}
+  
+  .md-whiteframe-z1.fade(
+    flex="80"
+    ng-if="animate.charts"
+  ) 
+    md-toolbar
+      .md-toolbar-tools
+        span Your Progress
+        span(flex)
+        md-button.md-icon-button
+          md-icon(
+            md-font-library="material-icons"
+          ) done
+          
+        md-button.md-icon-button
+          md-icon(
+            md-font-library="material-icons"
+          ) hourglass_full
+          
+        md-button.md-icon-button
+          md-icon(
+            md-font-library="material-icons"
+          ) hourglass_empty
+          
+    md-content.md-padding
+      canvas.chart.chart-line(
+        chart-labels="charts.accuracy.labels" 
+        chart-legend="false" 
+        chart-series="charts.accuracy.series"
+        chart-data="charts.accuracy.data"
+      )
+      
+    //- md-toolbar
+    //-   .md-toolbar-tools
+    //-     span Tokens Per Minute
+    //-     span(flex)
+    //- md-content.md-padding
+    //-   canvas.chart.chart-line(
+    //-     chart-labels="charts.tokensPerMin.labels" 
+    //-     chart-legend="false" 
+    //-     chart-series="charts.tokensPerMin.series"
+    //-     chart-data="charts.tokensPerMin.data"
+    //-   )
+      
+    //- md-toolbar
+    //-   .md-toolbar-tools
+    //-     span Characters Per Minute
+    //-     span(flex)
+    //- md-content.md-padding
+    //-   canvas.chart.chart-line(
+    //-     chart-labels="charts.charsPerMin.labels" 
+    //-     chart-legend="false" 
+    //-     chart-series="charts.charsPerMin.series"
+    //-     chart-data="charts.charsPerMin.data"
+    //-   )

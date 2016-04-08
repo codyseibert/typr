@@ -1,0 +1,18 @@
+[Service]
+WorkingDirectory=/home/linkr
+ExecStart=/usr/bin/pm2 start server.js --name linkr -i 1 -x -e /var/log/linkr/error.log -o /var/log/linkr/app.log --merge-logs --no-daemon
+ExecStop=/usr/bin/pm2 stop linkr
+ExecReload=/usr/bin/pm2 restart linkr
+Type=simple
+RemainAfterExit=false
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=linkr
+User=node
+Group=node
+Environment='NODE_ENV=production'
+Environment='PATH=$PATH:/usr/bin'
+
+[Install]
+WantedBy=multi-user.target

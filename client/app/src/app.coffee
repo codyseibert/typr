@@ -5,6 +5,7 @@ require 'angular-filter'
 require 'angular-local-storage'
 require 'angular-material'
 require 'angular-animate'
+require 'ng-lodash'
 
 app = require('angular').module('typr', [
   require 'angular-ui-router'
@@ -17,6 +18,7 @@ app = require('angular').module('typr', [
   'angular.filter'
   'ngMaterial'
   'LocalStorageModule'
+  'ngLodash'
   require 'angular-moment'
 ])
 app.config require './routes'

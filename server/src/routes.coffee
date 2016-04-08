@@ -19,11 +19,11 @@ module.exports = do ->
   app.put '/users/:id', UsersCtrl.put
   app.delete '/users/:id', UsersCtrl.destroy
 
-  app.get '/reports', ReportsCtrl.index
-  app.get '/reports/:id', ReportsCtrl.show
+  app.get '/reports', auth, ReportsCtrl.index
+  # app.get '/reports/:id', ReportsCtrl.show
   app.post '/reports', auth, ReportsCtrl.post
-  app.put '/reports/:id', ReportsCtrl.put
-  app.delete '/reports/:id', ReportsCtrl.destroy
+  # app.put '/reports/:id', ReportsCtrl.put
+  # app.delete '/reports/:id', ReportsCtrl.destroy
 
   app.get '/favorites', auth, FavoritesCtrl.index
   app.post '/favorites', auth, FavoritesCtrl.post
