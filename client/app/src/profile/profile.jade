@@ -13,6 +13,7 @@ div(
         span(flex)
     md-content.text-center
       md-button(
+        ng-click="setLanguage(language)"
         ng-repeat="language in languages"
       ) {{language}}
   
@@ -24,27 +25,34 @@ div(
       .md-toolbar-tools
         span Your Progress
         span(flex)
-        md-button.md-icon-button
+        md-button.md-icon-button(
+          ng-click="setChartType('accuracy')"
+        )
           md-icon(
             md-font-library="material-icons"
           ) done
           
-        md-button.md-icon-button
-          md-icon(
-            md-font-library="material-icons"
-          ) hourglass_full
-          
-        md-button.md-icon-button
+        md-button.md-icon-button(
+          ng-click="setChartType('charsPerMin')"
+        )
           md-icon(
             md-font-library="material-icons"
           ) hourglass_empty
           
+        md-button.md-icon-button(
+          ng-click="setChartType('tokensPerMin')"
+        )
+          md-icon(
+            md-font-library="material-icons"
+          ) hourglass_full
+          
+          
     md-content.md-padding
       canvas.chart.chart-line(
-        chart-labels="charts.accuracy.labels" 
+        chart-labels="charts[currentLanguage][chartType].labels" 
         chart-legend="false" 
-        chart-series="charts.accuracy.series"
-        chart-data="charts.accuracy.data"
+        chart-series="charts[currentLanguage][chartType].series"
+        chart-data="charts[currentLanguage][chartType].data"
       )
       
     //- md-toolbar

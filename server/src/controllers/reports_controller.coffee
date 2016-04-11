@@ -18,6 +18,7 @@ module.exports = do ->
 
   post: (req, res) ->
     req.body.user_id = req.user._id
+    req.body.date = new Date()
     Reports.create(req.body).then (obj) ->
       res.status 200
       res.send obj

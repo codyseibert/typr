@@ -13,3 +13,4 @@ module.exports = new Schema
   secElapsed: Number
   strokes: Number
   tokensPerMin: Number
+  date: Date

@@ -1,12 +1,14 @@
 module.exports = [
   '$scope'
   '$timeout'
+  '$filter'
   'lodash'
   'reportsService'
   'snippitsService'
   (
     $scope
     $timeout
+    $filter
     _
     reportsService
     snippitsService
@@ -22,87 +24,68 @@ module.exports = [
       $scope.animate.charts = true
     , 100
 
-    $scope.charts =
-      accuracy:
-        labels: [
-          "1/1/2016"
-          "1/2/2016"
-          "1/3/2016"
-          "1/4/2016"
-          "1/5/2016"
-        ]
-        series: [
-          'php'
-        ]
-        data: [
-          [
-            100
-            104
-            98
-            111
-            120
-          ]
-        ]
+    $scope.currentLanguage = 'javascript'
+    $scope.chartType = 'accuracy'
+    $scope.charts = {}
 
-      tokensPerMin:
-        labels: [
-          "1/1/2016"
-          "1/2/2016"
-          "1/3/2016"
-          "1/4/2016"
-          "1/5/2016"
-        ]
-        series: [
-          'php'
-        ]
-        data: [
-          [
-            100
-            104
-            98
-            111
-            120
-          ]
-        ]
+    $scope.setChartType = (type) ->
+      $scope.chartType = type
 
-      charsPerMin:
-        labels: [
-          "1/1/2016"
-          "1/2/2016"
-          "1/3/2016"
-          "1/4/2016"
-          "1/5/2016"
-        ]
-        series: [
-          'php'
-        ]
-        data: [
-          [
-            100
-            104
-            98
-            111
-            120
-          ]
-        ]
+      console.log $scope.charts[$scope.currentLanguage][$scope.chartType]
+      # $scope.$apply()
 
+    $scope.setLanguage = (language) ->
+      $scope.currentLanguage = language
+      # $scope.$apply()
+
+    reports = null
+    snippits = null
     reportsService.index()
-      .then (reports) ->
-        console.log reports
+      .then (r) ->
+        reports = r
         snippitIds = reports.map (favorite) -> favorite.snippit_id
         snippitsService.index '_id$in': snippitIds.join ','
+      .then (s) ->
+        snippits = s
+        reports.forEach (report) ->
+          report.snippit = _.find snippits, _id: report.snippit_id
 
-      .then (snippits) ->
-        snippitMap = {}
-        for snippit in snippits
-          snippitMap[snippit._id] = snippit
+        # seperate by language
+        languageMap = {}
+        reports.forEach (report) ->
+          languageMap[report.snippit.language] ?= []
+          languageMap[report.snippit.language].push report
 
-        $scope.languages = _.uniq snippits.map (snippit) -> snippit.language
-        $scope.languages.push 'ruby'
-        $scope.languages.push 'coffeescript'
-        $scope.languages.push 'bash'
-        $scope.languages.push 'c++'
-        $scope.languages.push 'c#'
+        for key, arr of languageMap
+          languageMap[key] = _.sortBy arr, 'date'
+
+        for key, arr of languageMap
+          $scope.charts[key] =
+            accuracy:
+              data: [arr.map (val) -> val.accuracy]
+              labels: arr.map (val) -> $filter('amCalendar') val.date
+              series: 'accuracy'
+            charsPerMin:
+              data: [arr.map (val) -> val.charsPerMin]
+              labels: arr.map (val) -> $filter('amCalendar') val.date
+              series: 'Characters Per Minute'
+            tokensPerMin:
+              data: [arr.map (val) -> val.tokensPerMin]
+              labels: arr.map (val) -> $filter('amCalendar') val.date
+              series: 'Tokens Per Minute'
+
+        $scope.languages = []
+        for key, arr of languageMap
+          $scope.languages.push key
+
+        # sort by date
+
+        # $scope.languages = _.uniq snippits.map (snippit) -> snippit.language
+        # $scope.languages.push 'ruby'
+        # $scope.languages.push 'coffeescript'
+        # $scope.languages.push 'bash'
+        # $scope.languages.push 'c++'
+        # $scope.languages.push 'c#'
 
     # createAccuracyChart = ->
     #   $scope.charts.accuracy.labels = []
