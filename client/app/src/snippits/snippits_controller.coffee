@@ -59,7 +59,8 @@ module.exports = [
               modalInstance.close()
               console.log 'done'
 
-    snippitUploaded = ->
+    snippitUploaded = (snippit) ->
+      $scope.snippits.push snippit
       modalInstance.close()
 
     $scope.showUpload = ->

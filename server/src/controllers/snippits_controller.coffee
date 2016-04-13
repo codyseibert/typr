@@ -11,7 +11,7 @@ module.exports = do ->
   index: (req, res) ->
     query = req.query
     if req.query['_id$in']
-      query = 
+      query =
         '_id':
           $in: req.query['_id$in'].split ','
     Snippits.find(query).then (obj) ->
@@ -25,7 +25,7 @@ module.exports = do ->
 
   post: (req, res) ->
     req.body.user_id = req.user._id
-    req.body.language = classifier req.body.code
+    # req.body.language = classifier req.body.code
     Snippits.create(req.body).then (obj) ->
       res.status 200
       res.send obj

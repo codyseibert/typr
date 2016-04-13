@@ -6,13 +6,19 @@
   )
   
 .col-sm-12.centered
+  select(
+    ng-model="language"
+    ng-options="lang.name for lang in languages"
+  )
+  
+.col-sm-12.centered
   textarea.type(
     ng-model="code"
   )
 
 .col-sm-12.centered
   button.col-sm-12.btn.btn-primary(
-    ng-click="canUpload() && upload() && uploadClicked()"
+    ng-click="canUpload() && upload()"
     ng-class="{disabled: !canUpload()}"
     ng-diabled="!canUpload()"
   ) Upload

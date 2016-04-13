@@ -17,13 +17,25 @@ div(
           md-card-title-text
             span.md-headline.md-fg-primary {{snippit.name}} ({{snippit.language}})
             span.md-subhead
-              span Average WPM: 124
+              span Best Accuracy: 
+                span.accent {{(snippit.bestACC | number:0) || 'N/A'}}
               br
-              span Best WPM: 80
+              span Best Tokens Per Min: 
+                span.accent {{(snippit.bestTPM | number:0) || 'N/A'}}
+              br
+              span Best Chars Per Min: 
+                span.accent {{(snippit.bestCPM | number:0) || 'N/A'}}
         md-card-actions(
           layout="row"
           layout-align="end center"
         )
+          md-button.md-primary.md-raised(
+            ng-click="openSnippit(snippit)"
+          ) 
+            md-icon(
+              md-font-library="material-icons"
+            ) assignment
+            | Reports
           md-button.md-primary.md-raised(
             ng-click="openSnippit(snippit)"
           ) 

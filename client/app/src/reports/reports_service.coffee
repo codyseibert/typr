@@ -9,9 +9,9 @@ module.exports = [
     BACKEND_URL
   ) ->
 
-    index: (report) ->
+    index: (filter) ->
       $q (resolve, reject) ->
-        $http.get("#{BACKEND_URL}/reports").then (data) ->
+        $http.get("#{BACKEND_URL}/reports", params: filter).then (data) ->
           resolve data.data
 
     create: (report) ->
