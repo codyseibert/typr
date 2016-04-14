@@ -50,6 +50,8 @@ pre
   color: $COLOR_P
   text-shadow: 1px 1px $COLOR_T
 
+
+
 .fade
   opacity: 1
 
@@ -68,6 +70,33 @@ pre
   opacity: 1
 
 .fade.ng-enter-stagger
+  transition-delay: 0.15s
+  animation-delay: 0.15s
+  transition-duration: 0s
+
+
+.fade-no-out
+  opacity: 1
+
+.fade-no-out.ng-enter
+  transition: 0.5s linear all
+  opacity: 0
+
+.fade-no-out.ng-leave
+  transition: 0.0s linear all
+  opacity: 1
+
+.fade-no-out.ng-leave
+  transition: 0.0s linear all
+  opacity: 1
+
+.fade-no-out.ng-leave.ng-leave-active
+  opacity: 0
+
+.fade-no-out.ng-enter.ng-enter-active
+  opacity: 1
+
+.fade-no-out.ng-enter-stagger
   transition-delay: 0.15s
   animation-delay: 0.15s
   transition-duration: 0s
