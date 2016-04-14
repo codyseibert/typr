@@ -8,6 +8,8 @@ md-toolbar.md-whiteframe-z2
       
     md-button.btn(
       ui-sref="main.snippits"
+      ng-class="{'md-accent': selected === 'snippits'}"
+      ng-click="selected = 'snippits'"
     )
       md-icon(
         md-font-library="material-icons"
@@ -24,6 +26,8 @@ md-toolbar.md-whiteframe-z2
     //-   
     md-button.btn(
       ui-sref="main.favorites"
+      ng-class="{'md-accent': selected === 'favorites'}"
+      ng-click="selected = 'favorites'"
     ) 
       md-icon(
         md-font-library="material-icons"
@@ -32,19 +36,27 @@ md-toolbar.md-whiteframe-z2
 
     md-button.btn(
       ui-sref="main.profile"
+      ng-class="{'md-accent': selected === 'profile'}"
+      ng-click="selected = 'profile'"
     )
       md-icon(
         md-font-library="material-icons"
       ) account_circle
       | Profile
 
-    md-button.btn 
+    md-button.btn(
+      ng-class="{'md-accent': selected === 'analyze'}"
+      ng-click="selected = 'analyze'"  
+    )
       md-icon(
         md-font-library="material-icons"
       ) assessment
       | Analyze
       
-    md-button.btn 
+    md-button.btn(
+      ng-class="{'md-accent': selected === 'about'}"
+      ng-click="selected = 'about'"  
+    ) 
       md-icon(
         md-font-library="material-icons"
       ) live_help

@@ -25,6 +25,12 @@ div(
               br
               span Best Chars Per Min: 
                 span.accent {{(snippit.bestCPM | number:0) || 'N/A'}}
+          md-card-title-media
+            div.md-media-sm
+              md-icon.md-accent(
+                ng-click="unsetAsFavorite(snippit)"
+                md-font-library="material-icons"
+              ) favorite
         md-card-actions(
           layout="row"
           layout-align="end center"

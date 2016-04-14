@@ -12,6 +12,10 @@ module.exports = [
     reportsService
   ) ->
 
+    $scope.unsetAsFavorite = (snippit) ->
+      favoritesService.delete snippit._id
+      $scope.snippits.splice $scope.snippits.indexOf(snippit), 1
+
     favoritesService.index().then (favorites) ->
       snippits = favorites.map (favorite) -> favorite.snippit
       snippitsService.index '_id$in': snippits.join ','
